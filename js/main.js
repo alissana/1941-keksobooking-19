@@ -33,6 +33,16 @@ function getRandElementArr(arr) {
   return arr[randItem];
 }
 
+function getRandLengthArr(arr) {
+  var newArr = [];
+  var newLength = getRandElement(1, arr.length);
+
+  for (var k = 0; k < newLength; k++) {
+    newArr[k] = getRandElementArr(arr);
+  }
+  return newArr;
+}
+
 function getCard(countCards) {
   var cards = [];
 
@@ -50,9 +60,9 @@ function getCard(countCards) {
         guests: getRandElement(1, 3),
         checkin: getRandElementArr(TIME),
         checkout: getRandElementArr(TIME),
-        features: getRandElementArr(FEATURES),
+        features: getRandLengthArr(FEATURES),
         description: getRandElementArr(DESCRIPTION),
-        photos: getRandElementArr(PHOTOS)
+        photos: getRandLengthArr(PHOTOS)
       },
       location: {
         x: getRandElement(0, 1100) + 25,
@@ -117,4 +127,3 @@ var cardsData = getCard(countCards);
 
 copyCard(countCards);
 copyPin(cardsData);
-
