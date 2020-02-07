@@ -1,5 +1,13 @@
 'use strict';
 
+var COUNTCARDS = 8;
+var TYPEHOUSE = ['palace', 'flat', 'house', 'bungalo'];
+var TIME = ['12:00', '13:00', '14:00'];
+var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var TITLE = ['Уютная квартира на берегу залива', 'Из такой квартиры не захочется уезжать', 'Бунгало с видом на океан', 'Дом в скандинавском стиле', 'Уютные аппартаменты в Центре', 'Квартира в небоскребе на 121 этаже', 'Квартира для ценителей минимализма', 'Дом для семьи из 4 человек'];
+var DESCRIPTION = ['Очень уютная квартира-студия в центре. Сделан евроремонт. Установлена вся необходимая техника: холодильник, свч, электрическая плита, посудомоечная, стиральная машина, телевизор, фен, утюг.', 'Квартира у Аквапарка Ривьера. С wi-fi кондиционером, горячая вода есть всегда! На кухне есть все необходимое что бы готовить и даже фартук.', 'Одноэтажная квартира (Лестница не используется и является частью интерьера) с отдельной спальней и совмещённой гостиной/кухней, отличный вариант как на пару, так и на компанию из 3-4 человек.', 'Удобное пространство, где могут разместиться до 3 человек. Эта квартира находится в 3 минутах езды от Синдзюку на поезде, а также недалеко от Сибуя!', 'Мой дом - типичный дом в японском стиле, расположенный в тихом жилом районе в 6 минутах ходьбы от станции Асагая.', 'Эти дизайнерские апартаменты находятся в 9 минутах ходьбы от станции MACHIYA.', 'TASU TOCO - это дизайнерская внутренняя квартира, расположенная в 15 минутах езды на поезде от станции Синдзюку.', 'Квартира находится в жилом районе, поэтому вы можете спать спокойно и спать по ночам.', 'У нас есть просторная кухня и лаундж, поэтому долгожданные гости очень приветствуются!'];
+
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
 
@@ -11,17 +19,8 @@ var pinTemplate = document.querySelector('#pin')
     .content;
 var pinTemplateElement = document.querySelector('.map__pins');
 
-var TYPEHOUSE = ['palace', 'flat', 'house', 'bungalo'];
-var TIME = ['12:00', '13:00', '14:00'];
-var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-var TITLE = ['Уютная квартира на берегу залива', 'Из такой квартиры не захочется уезжать', 'Бунгало с видом на океан', 'Дом в скандинавском стиле', 'Уютные аппартаменты в Центре', 'Квартира в небоскребе на 121 этаже', 'Квартира для ценителей минимализма', 'Дом для семьи из 4 человек'];
-var DESCRIPTION = ['Очень уютная квартира-студия в центре. Сделан евроремонт. Установлена вся необходимая техника: холодильник, свч, электрическая плита, посудомоечная, стиральная машина, телевизор, фен, утюг.', 'Квартира у Аквапарка Ривьера. С wi-fi кондиционером, горячая вода есть всегда! На кухне есть все необходимое что бы готовить и даже фартук.', 'Одноэтажная квартира (Лестница не используется и является частью интерьера) с отдельной спальней и совмещённой гостиной/кухней, отличный вариант как на пару, так и на компанию из 3-4 человек.', 'Удобное пространство, где могут разместиться до 3 человек. Эта квартира находится в 3 минутах езды от Синдзюку на поезде, а также недалеко от Сибуя!', 'Мой дом - типичный дом в японском стиле, расположенный в тихом жилом районе в 6 минутах ходьбы от станции Асагая.', 'Эти дизайнерские апартаменты находятся в 9 минутах ходьбы от станции MACHIYA.', 'TASU TOCO - это дизайнерская внутренняя квартира, расположенная в 15 минутах езды на поезде от станции Синдзюку.', 'Квартира находится в жилом районе, поэтому вы можете спать спокойно и спать по ночам.', 'У нас есть просторная кухня и лаундж, поэтому долгожданные гости очень приветствуются!'];
-
 function getRandElement(min, max) {
-  var rand;
-  rand = min + Math.random() * (max + 1 - min);
-  return Math.floor(rand);
+  return Math.floor(min + Math.random() * (max + 1 - min));
 }
 
 function getRandElementArr(arr) {
@@ -43,10 +42,10 @@ function getRandLengthArr(arr) {
   return newArr;
 }
 
-function getCard(countCards) {
+function getCard(numberOfCards) {
   var cards = [];
 
-  for (var i = 0; i < countCards; i++) {
+  for (var i = 0; i < numberOfCards; i++) {
     cards[i] = {
       author: {
         avatar: 'img/avatars/user0' + (i + 1) + '.png'
@@ -112,7 +111,7 @@ function createPin(card) {
   return pinElement;
 }
 
-function copyPin(cards) {
+function renderPins(cards) {
   var fragment = document.createDocumentFragment();
 
   for (var i = 0; i < cards.length; i++) {
@@ -122,8 +121,7 @@ function copyPin(cards) {
   pinTemplateElement.appendChild(fragment);
 }
 
-var countCards = 8;
-var cardsData = getCard(countCards);
+var cardsData = getCard(COUNTCARDS);
 
-copyCard(countCards);
-copyPin(cardsData);
+copyCard(COUNTCARDS);
+renderPins(cardsData);
