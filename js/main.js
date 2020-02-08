@@ -2,6 +2,12 @@
 
 var COUNTCARDS = 8;
 var TYPEHOUSE = ['palace', 'flat', 'house', 'bungalo'];
+var TYPEHOUSE_LABELS = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalo: 'Бунгало'
+};
 var TIME = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
@@ -10,10 +16,10 @@ var DESCRIPTION = ['Очень уютная квартира-студия в ц�
 
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
+var mapFilters = map.querySelector('.map__filters-container');
 
 var cardTemplate = document.querySelector('#card')
     .content;
-var cardTemplateElement = cardTemplate.querySelector('.popup');
 
 var pinTemplate = document.querySelector('#pin')
     .content;
@@ -39,10 +45,11 @@ function getRandLengthArr(arr) {
   for (var k = 0; k < newLength; k++) {
     newArr[k] = getRandElementArr(arr);
   }
+
   return newArr;
 }
 
-function getCard(numberOfCards) {
+function getCards(numberOfCards) {
   var cards = [];
 
   for (var i = 0; i < numberOfCards; i++) {
@@ -69,34 +76,67 @@ function getCard(numberOfCards) {
       }
     };
   }
-
   return cards;
 }
 
+function renderImage(container, photos) {
+  container.innerHTML = '';
+
+  for (var i = 0; i < photos.length; i++) {
+    var img = document.createElement('img');
+
+    img.src = photos[i];
+    img.className = 'popup__photo';
+    img.width = 45;
+    img.height = 40;
+    img.alt = 'Фотография жилья';
+
+    container.appendChild(img);
+  }
+}
+
+function renderFeature(container, features) {
+  container.innerHTML = '';
+
+  for (var i = 0; i < features.length; i++) {
+    var li = document.createElement('li');
+
+    li.textContent = features[i];
+    li.className = 'popup__feature popup__feature--' + li.textContent;
+
+    container.appendChild(li);
+  }
+}
+
+
 function createCard(card) {
   var cardElement = cardTemplate.cloneNode(true);
+  var imageContainer = cardElement.querySelector('.popup__photos');
+  var featureContainer = cardElement.querySelector('.popup__features');
 
   cardElement.querySelector('.popup__title').textContent = card.offer.title;
   cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
-  cardElement.querySelector('.popup__text--price').textContent = card.offer.price;
-  cardElement.querySelector('.popup__type').textContent = card.offer.type;
-  cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + 'комнаты для' + card.offer.guests + ' гостей';
+  cardElement.querySelector('.popup__text--price').textContent = card.offer.price + '₽/ночь';
+  cardElement.querySelector('.popup__type').textContent = TYPEHOUSE_LABELS[card.offer.type];
+  cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
   cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
-  cardElement.querySelector('.popup__features').textContent = card.offer.features;
   cardElement.querySelector('.popup__description').textContent = card.offer.description;
-  cardElement.querySelector('.popup__photos').textContent = card.offer.photos;
+  cardElement.querySelector('.popup__avatar').src = card.author.avatar;
+
+  renderImage(imageContainer, card.offer.photos);
+  renderFeature(featureContainer, card.offer.features);
 
   return cardElement;
 }
 
-function copyCard(cards) {
+function renderCards(cards) {
   var fragment = document.createDocumentFragment();
 
   for (var i = 0; i < cards.length; i++) {
     fragment.appendChild(createCard(cards[i]));
   }
 
-  cardTemplateElement.appendChild(fragment);
+  map.insertBefore(fragment, mapFilters);
 }
 
 function createPin(card) {
@@ -121,7 +161,8 @@ function renderPins(cards) {
   pinTemplateElement.appendChild(fragment);
 }
 
-var cardsData = getCard(COUNTCARDS);
+var cardsData = getCards(COUNTCARDS);
+var firstCard = [cardsData[0]];
 
-copyCard(COUNTCARDS);
+renderCards(firstCard);
 renderPins(cardsData);
