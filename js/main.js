@@ -30,7 +30,6 @@ var Y_OTHER_PIN = 70;
 var map = document.querySelector('.map');
 var mapFilters = map.querySelector('.map__filters-container');
 var adForm = document.querySelector('.ad-form');
-var inputAdress = adForm.querySelector('#address');
 var adFormFieldset = adForm.querySelectorAll('fieldset');
 
 var mapFiltersForm = mapFilters.querySelector('.map__filters');
@@ -181,9 +180,9 @@ function renderPins(cards) {
 }
 
 var cardsData = getCards(COUNTCARDS);
-var firstCard = [cardsData[0]];
+// var firstCard = [cardsData[0]];
 
-//renderCards(firstCard);
+// renderCards(firstCard);
 
 function addAttribute(tagList, attributeName) {
   if (tagList) {
@@ -201,7 +200,7 @@ function deleteAttribute(tagList, attributeName) {
   }
 }
 
-var disabled = 'disabled'
+var disabled = 'disabled';
 addAttribute(adFormFieldset, disabled);
 
 function getAddress(xPin, yPin) {
@@ -216,7 +215,9 @@ function getAddress(xPin, yPin) {
   yLocation = (yLocation <= 130) ? 130 : yLocation;
   yLocation = (yLocation >= 630) ? 630 : yLocation;
 
-  return inputAdress.value = (xLocation + ', ' + yLocation);
+  inputAdress.value = (xLocation + ', ' + yLocation);
+
+  return xLocation + ', ' + yLocation;
 }
 
 getAddress(MAIN_PIN_CIRCLE, MAIN_PIN_HALF_CIRCLE);
