@@ -9,11 +9,23 @@ var TYPEHOUSE_LABELS = {
   house: 'Дом',
   bungalo: 'Бунгало'
 };
+var ROOMS_FOR_GUESTS = {
+  '1': ['1'],
+  '2': ['2', '1'],
+  '3': ['3', '2', '1'],
+  '100': ['0']
+};
 var TIME = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var TITLE = ['Уютная квартира на берегу залива', 'Из такой квартиры не захочется уезжать', 'Бунгало с видом на океан', 'Дом в скандинавском стиле', 'Уютные аппартаменты в Центре', 'Квартира в небоскребе на 121 этаже', 'Квартира для ценителей минимализма', 'Дом для семьи из 4 человек'];
 var DESCRIPTION = ['Очень уютная квартира-студия в центре. Сделан евроремонт. Установлена вся необходимая техника: холодильник, свч, электрическая плита, посудомоечная, стиральная машина, телевизор, фен, утюг.', 'Квартира у Аквапарка Ривьера. С wi-fi кондиционером, горячая вода есть всегда! На кухне есть все необходимое что бы готовить и даже фартук.', 'Одноэтажная квартира (Лестница не используется и является частью интерьера) с отдельной спальней и совмещённой гостиной/кухней, отличный вариант как на пару, так и на компанию из 3-4 человек.', 'Удобное пространство, где могут разместиться до 3 человек. Эта квартира находится в 3 минутах езды от Синдзюку на поезде, а также недалеко от Сибуя!', 'Мой дом - типичный дом в японском стиле, расположенный в тихом жилом районе в 6 минутах ходьбы от станции Асагая.', 'Эти дизайнерские апартаменты находятся в 9 минутах ходьбы от станции MACHIYA.', 'TASU TOCO - это дизайнерская внутренняя квартира, расположенная в 15 минутах езды на поезде от станции Синдзюку.', 'Квартира находится в жилом районе, поэтому вы можете спать спокойно и спать по ночам.', 'У нас есть просторная кухня и лаундж, поэтому долгожданные гости очень приветствуются!'];
+var MAIN_PIN_CIRCLE = 62;
+var MAIN_PIN_HALF_CIRCLE = 31;
+var X_MAIN_PIN = 84;
+var Y_MAIN_PIN = 72;
+var X_OTHER_PIN = 50;
+var Y_OTHER_PIN = 70;
 
 var map = document.querySelector('.map');
 var mapFilters = map.querySelector('.map__filters-container');
@@ -66,7 +78,7 @@ function getCards(numberOfCards) {
       },
       offer: {
         title: getRandElementArr(TITLE),
-        address: (getRandElement(0, 1100) + 25) + ', ' + (getRandElement(130, 560) + 70),
+        address: getAddress(X_OTHER_PIN, Y_OTHER_PIN),
         price: getRandElement(1000, 100000),
         type: getRandElementArr(TYPEHOUSE),
         rooms: getRandElement(1, 3),
@@ -78,8 +90,8 @@ function getCards(numberOfCards) {
         photos: getRandLengthArr(PHOTOS)
       },
       location: {
-        x: getRandElement(0, 1100) + 25,
-        y: getRandElement(130, 560) + 70
+        x: getRandElement(0, 1100) + (X_OTHER_PIN / 2),
+        y: getRandElement(130, 560) + Y_OTHER_PIN
       }
     };
   }
@@ -192,6 +204,22 @@ function deleteAttribute(tagList, attributeName) {
 var disabled = 'disabled'
 addAttribute(adFormFieldset, disabled);
 
+function getAddress(xPin, yPin) {
+  var inputAdress = adForm.querySelector('#address');
+  var left = mapPinMain.style.left;
+  var top = mapPinMain.style.top;
+  var xLocation = Math.floor(Number(left.replace('px', '')) + (xPin / 2));
+  var yLocation = Math.floor(Number(top.replace('px', '')) + yPin);
+
+  xLocation = (xLocation <= 0) ? 0 : xLocation;
+  xLocation = (xLocation >= 1200) ? 1200 : xLocation;
+  yLocation = (yLocation <= 130) ? 130 : yLocation;
+  yLocation = (yLocation >= 630) ? 630 : yLocation;
+
+  return inputAdress.value = (xLocation + ', ' + yLocation);
+}
+
+getAddress(MAIN_PIN_CIRCLE, MAIN_PIN_HALF_CIRCLE);
 
 function logButton(e, card) {
   if (e.button === 0 || e.key === ENTER_KEY) {
@@ -200,6 +228,7 @@ function logButton(e, card) {
     mapFiltersForm.classList.remove('mapFiltersForm--disabled');
     deleteAttribute(adFormFieldset, disabled);
     renderPins(cardsData);
+    getAddress(X_MAIN_PIN, Y_MAIN_PIN);
   }
 }
 
@@ -207,7 +236,7 @@ mapPinMain.addEventListener('mousedown', logButton);
 mapPinMain.addEventListener('keydown', logButton);
 
 /*
-  Рабочий вариант c изменением option
+  Рабочий вариант c изменением innerHTML
 */
 
 // var rooms = adForm.querySelector('#room_number');
@@ -250,13 +279,6 @@ mapPinMain.addEventListener('keydown', logButton);
 var rooms = adForm.querySelector('#room_number');
 var guests = adForm.querySelector('#capacity');
 
-var ROOMS_FOR_GUESTS = {
-  '1': ['1'],
-  '2': ['2', '1'],
-  '3': ['3', '2', '1'],
-  '100': ['0']
-};
-
 function validRoomsForGuests() {
   var el = (typeof this !== 'undefined') ? this : rooms;
   var validRooms = ROOMS_FOR_GUESTS[el.value];
@@ -274,5 +296,5 @@ function validRoomsForGuests() {
   }
 }
 
-rooms.addEventListener('change', validRoomsForGuests);
 validRoomsForGuests();
+rooms.addEventListener('change', validRoomsForGuests);
