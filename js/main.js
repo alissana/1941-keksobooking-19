@@ -126,7 +126,6 @@ function renderFeature(container, features) {
   }
 }
 
-
 function createCard(card) {
   var cardElement = cardTemplate.cloneNode(true);
   var imageContainer = cardElement.querySelector('.popup__photos');
@@ -150,11 +149,13 @@ function createCard(card) {
 function renderCards(cards) {
   var fragment = document.createDocumentFragment();
 
-  for (var i = 0; i < cards.length; i++) {
-    fragment.appendChild(createCard(cards[i]));
-  }
+  if (cards.length !== 0) {
+    for (var i = 0; i < cards.length; i++) {
+      fragment.appendChild(createCard(cards[i]));
+    }
 
-  map.insertBefore(fragment, mapFilters);
+    map.insertBefore(fragment, mapFilters);
+  }
 }
 
 function createPin(card) {
@@ -181,8 +182,9 @@ function renderPins(cards) {
 
 var cardsData = getCards(COUNTCARDS);
 // var firstCard = [cardsData[0]];
+var firstCard = [];
 
-// renderCards(firstCard);
+renderCards(firstCard);
 
 function addAttribute(tagList, attributeName) {
   if (tagList) {
@@ -222,8 +224,8 @@ function getAddress(xPin, yPin) {
 
 getAddress(MAIN_PIN_CIRCLE, MAIN_PIN_HALF_CIRCLE);
 
-function logButton(e, card) {
-  if (e.button === 0 || e.key === ENTER_KEY) {
+function logButton(evt) {
+  if (evt.button === 0 || evt.key === ENTER_KEY) {
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     mapFiltersForm.classList.remove('mapFiltersForm--disabled');
@@ -280,8 +282,8 @@ mapPinMain.addEventListener('keydown', logButton);
 var rooms = adForm.querySelector('#room_number');
 var guests = adForm.querySelector('#capacity');
 
-function validRoomsForGuests() {
-  var el = (typeof this !== 'undefined') ? this : rooms;
+function validRoomsForGuests(evt) {
+  var el = (typeof evt === 'undefined') ? rooms : evt.currentTarget;
   var validRooms = ROOMS_FOR_GUESTS[el.value];
 
   var options = guests.querySelectorAll('option');
