@@ -1,5 +1,6 @@
 'use strict';
 
+var ENTER_KEY = 'Enter';
 var COUNTCARDS = 8;
 var TYPEHOUSE = ['palace', 'flat', 'house', 'bungalo'];
 var TYPEHOUSE_LABELS = {
@@ -8,22 +9,41 @@ var TYPEHOUSE_LABELS = {
   house: 'Дом',
   bungalo: 'Бунгало'
 };
+var ROOMS_FOR_GUESTS = {
+  '1': ['1'],
+  '2': ['2', '1'],
+  '3': ['3', '2', '1'],
+  '100': ['0']
+};
 var TIME = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var TITLE = ['Уютная квартира на берегу залива', 'Из такой квартиры не захочется уезжать', 'Бунгало с видом на океан', 'Дом в скандинавском стиле', 'Уютные аппартаменты в Центре', 'Квартира в небоскребе на 121 этаже', 'Квартира для ценителей минимализма', 'Дом для семьи из 4 человек'];
 var DESCRIPTION = ['Очень уютная квартира-студия в центре. Сделан евроремонт. Установлена вся необходимая техника: холодильник, свч, электрическая плита, посудомоечная, стиральная машина, телевизор, фен, утюг.', 'Квартира у Аквапарка Ривьера. С wi-fi кондиционером, горячая вода есть всегда! На кухне есть все необходимое что бы готовить и даже фартук.', 'Одноэтажная квартира (Лестница не используется и является частью интерьера) с отдельной спальней и совмещённой гостиной/кухней, отличный вариант как на пару, так и на компанию из 3-4 человек.', 'Удобное пространство, где могут разместиться до 3 человек. Эта квартира находится в 3 минутах езды от Синдзюку на поезде, а также недалеко от Сибуя!', 'Мой дом - типичный дом в японском стиле, расположенный в тихом жилом районе в 6 минутах ходьбы от станции Асагая.', 'Эти дизайнерские апартаменты находятся в 9 минутах ходьбы от станции MACHIYA.', 'TASU TOCO - это дизайнерская внутренняя квартира, расположенная в 15 минутах езды на поезде от станции Синдзюку.', 'Квартира находится в жилом районе, поэтому вы можете спать спокойно и спать по ночам.', 'У нас есть просторная кухня и лаундж, поэтому долгожданные гости очень приветствуются!'];
+var MAIN_PIN_CIRCLE = 62;
+var MAIN_PIN_HALF_CIRCLE = 31;
+var X_MAIN_PIN = 84;
+var Y_MAIN_PIN = 72;
+var X_OTHER_PIN = 50;
+var Y_OTHER_PIN = 70;
+var DISABLED = 'disabled';
+var firstCard = [];
 
 var map = document.querySelector('.map');
-map.classList.remove('map--faded');
 var mapFilters = map.querySelector('.map__filters-container');
+var adForm = document.querySelector('.ad-form');
+var adFormFieldset = adForm.querySelectorAll('fieldset');
+var mapFiltersForm = mapFilters.querySelector('.map__filters');
 
 var cardTemplate = document.querySelector('#card')
     .content;
-
 var pinTemplate = document.querySelector('#pin')
     .content;
 var pinTemplateElement = document.querySelector('.map__pins');
+var mapPinMain = map.querySelector('.map__pin--main');
+
+var rooms = adForm.querySelector('#room_number');
+var guests = adForm.querySelector('#capacity');
 
 function getRandElement(min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
@@ -59,7 +79,7 @@ function getCards(numberOfCards) {
       },
       offer: {
         title: getRandElementArr(TITLE),
-        address: (getRandElement(0, 1100) + 25) + ', ' + (getRandElement(130, 560) + 70),
+        address: getAddress(X_OTHER_PIN, Y_OTHER_PIN),
         price: getRandElement(1000, 100000),
         type: getRandElementArr(TYPEHOUSE),
         rooms: getRandElement(1, 3),
@@ -71,8 +91,8 @@ function getCards(numberOfCards) {
         photos: getRandLengthArr(PHOTOS)
       },
       location: {
-        x: getRandElement(0, 1100) + 25,
-        y: getRandElement(130, 560) + 70
+        x: getRandElement(0, 1100) + (X_OTHER_PIN / 2),
+        y: getRandElement(130, 560) + Y_OTHER_PIN
       }
     };
   }
@@ -108,7 +128,6 @@ function renderFeature(container, features) {
   }
 }
 
-
 function createCard(card) {
   var cardElement = cardTemplate.cloneNode(true);
   var imageContainer = cardElement.querySelector('.popup__photos');
@@ -132,11 +151,13 @@ function createCard(card) {
 function renderCards(cards) {
   var fragment = document.createDocumentFragment();
 
-  for (var i = 0; i < cards.length; i++) {
-    fragment.appendChild(createCard(cards[i]));
-  }
+  if (cards.length !== 0) {
+    for (var i = 0; i < cards.length; i++) {
+      fragment.appendChild(createCard(cards[i]));
+    }
 
-  map.insertBefore(fragment, mapFilters);
+    map.insertBefore(fragment, mapFilters);
+  }
 }
 
 function createPin(card) {
@@ -161,8 +182,72 @@ function renderPins(cards) {
   pinTemplateElement.appendChild(fragment);
 }
 
-var cardsData = getCards(COUNTCARDS);
-var firstCard = [cardsData[0]];
+function addAttribute(tagList, attributeName) {
+  if (tagList) {
+    for (var i = 0; i < tagList.length; i++) {
+      tagList[i].setAttribute(attributeName, 'true');
+    }
+  }
+}
 
+function deleteAttribute(tagList, attributeName) {
+  if (tagList) {
+    for (var i = 0; i < tagList.length; i++) {
+      tagList[i].removeAttribute(attributeName);
+    }
+  }
+}
+
+function getAddress(xPin, yPin) {
+  var inputAddress = adForm.querySelector('#address');
+  var left = mapPinMain.style.left;
+  var top = mapPinMain.style.top;
+  var xLocation = Math.floor(Number(left.replace('px', '')) + (xPin / 2));
+  var yLocation = Math.floor(Number(top.replace('px', '')) + yPin);
+
+  xLocation = (xLocation <= 0) ? 0 : xLocation;
+  xLocation = (xLocation >= 1200) ? 1200 : xLocation;
+  yLocation = (yLocation <= 130) ? 130 : yLocation;
+  yLocation = (yLocation >= 630) ? 630 : yLocation;
+
+  inputAddress.value = (xLocation + ', ' + yLocation);
+
+  return xLocation + ', ' + yLocation;
+}
+
+function logButton(evt) {
+  if (evt.button === 0 || evt.key === ENTER_KEY) {
+    map.classList.remove('map--faded');
+    adForm.classList.remove('ad-form--disabled');
+    mapFiltersForm.classList.remove('mapFiltersForm--disabled');
+    deleteAttribute(adFormFieldset, DISABLED);
+    renderPins(cardsData);
+    getAddress(X_MAIN_PIN, Y_MAIN_PIN);
+  }
+}
+
+function validRoomsForGuests(evt) {
+  var el = (typeof evt === 'undefined') ? rooms : evt.currentTarget;
+  var validRooms = ROOMS_FOR_GUESTS[el.value];
+
+  var options = guests.querySelectorAll('option');
+
+  if (options) {
+    for (var i = 0; i < options.length; i++) {
+      var optionEl = options[i];
+
+      optionEl.disabled = (validRooms.indexOf(optionEl.value) === -1) ? true : false;
+    }
+
+    guests.querySelector('option[value="' + validRooms[0] + '"]').selected = true;
+  }
+}
+
+var cardsData = getCards(COUNTCARDS);
 renderCards(firstCard);
-renderPins(cardsData);
+getAddress(MAIN_PIN_CIRCLE, MAIN_PIN_HALF_CIRCLE);
+addAttribute(adFormFieldset, DISABLED);
+mapPinMain.addEventListener('mousedown', logButton);
+mapPinMain.addEventListener('keydown', logButton);
+validRoomsForGuests();
+rooms.addEventListener('change', validRoomsForGuests);
