@@ -26,22 +26,24 @@ var X_MAIN_PIN = 84;
 var Y_MAIN_PIN = 72;
 var X_OTHER_PIN = 50;
 var Y_OTHER_PIN = 70;
+var DISABLED = 'disabled';
+var firstCard = [];
 
 var map = document.querySelector('.map');
 var mapFilters = map.querySelector('.map__filters-container');
 var adForm = document.querySelector('.ad-form');
 var adFormFieldset = adForm.querySelectorAll('fieldset');
-
 var mapFiltersForm = mapFilters.querySelector('.map__filters');
 
 var cardTemplate = document.querySelector('#card')
     .content;
-
 var pinTemplate = document.querySelector('#pin')
     .content;
 var pinTemplateElement = document.querySelector('.map__pins');
-
 var mapPinMain = map.querySelector('.map__pin--main');
+
+var rooms = adForm.querySelector('#room_number');
+var guests = adForm.querySelector('#capacity');
 
 function getRandElement(min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
@@ -180,12 +182,6 @@ function renderPins(cards) {
   pinTemplateElement.appendChild(fragment);
 }
 
-var cardsData = getCards(COUNTCARDS);
-// var firstCard = [cardsData[0]];
-var firstCard = [];
-
-renderCards(firstCard);
-
 function addAttribute(tagList, attributeName) {
   if (tagList) {
     for (var i = 0; i < tagList.length; i++) {
@@ -202,11 +198,8 @@ function deleteAttribute(tagList, attributeName) {
   }
 }
 
-var disabled = 'disabled';
-addAttribute(adFormFieldset, disabled);
-
 function getAddress(xPin, yPin) {
-  var inputAdress = adForm.querySelector('#address');
+  var inputAddress = adForm.querySelector('#address');
   var left = mapPinMain.style.left;
   var top = mapPinMain.style.top;
   var xLocation = Math.floor(Number(left.replace('px', '')) + (xPin / 2));
@@ -217,70 +210,21 @@ function getAddress(xPin, yPin) {
   yLocation = (yLocation <= 130) ? 130 : yLocation;
   yLocation = (yLocation >= 630) ? 630 : yLocation;
 
-  inputAdress.value = (xLocation + ', ' + yLocation);
+  inputAddress.value = (xLocation + ', ' + yLocation);
 
   return xLocation + ', ' + yLocation;
 }
-
-getAddress(MAIN_PIN_CIRCLE, MAIN_PIN_HALF_CIRCLE);
 
 function logButton(evt) {
   if (evt.button === 0 || evt.key === ENTER_KEY) {
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     mapFiltersForm.classList.remove('mapFiltersForm--disabled');
-    deleteAttribute(adFormFieldset, disabled);
+    deleteAttribute(adFormFieldset, DISABLED);
     renderPins(cardsData);
     getAddress(X_MAIN_PIN, Y_MAIN_PIN);
   }
 }
-
-mapPinMain.addEventListener('mousedown', logButton);
-mapPinMain.addEventListener('keydown', logButton);
-
-/*
-  Рабочий вариант c изменением innerHTML
-*/
-
-// var rooms = adForm.querySelector('#room_number');
-// var guests = adForm.querySelector('#capacity');
-
-// var ROOMS_FOR_GUESTS = {
-//   '1': ['1'],
-//   '2': ['2', '1'],
-//   '3': ['3', '2', '1'],
-//   '100': ['0']
-// };
-
-// var CAPACITY = {
-//   '1': 'для 1 гостя',
-//   '2': 'для 2 гостей',
-//   '3': 'для 3 гостей',
-//   '0': 'не для гостей'
-// }
-
-// function validRoomsForGuests() {
-//   var roomValue = (typeof this !== 'undefined') ? this.value : 1;
-//   var validRooms = ROOMS_FOR_GUESTS[roomValue];
-//   var guestsHTML = '';
-
-//   for (var i = 0; i < validRooms.length; i++) {
-//     guestsHTML += '<option value="' + validRooms[i] + '">' + CAPACITY[validRooms[i]] + '</option>';
-//   }
-
-//   guests.innerHTML = guestsHTML;
-// }
-
-// rooms.addEventListener('change', validRoomsForGuests);
-
-// validRoomsForGuests();
-
-/*
-  Рабочий вариант без изменения option
-*/
-
-var rooms = adForm.querySelector('#room_number');
-var guests = adForm.querySelector('#capacity');
 
 function validRoomsForGuests(evt) {
   var el = (typeof evt === 'undefined') ? rooms : evt.currentTarget;
@@ -299,5 +243,11 @@ function validRoomsForGuests(evt) {
   }
 }
 
+var cardsData = getCards(COUNTCARDS);
+renderCards(firstCard);
+getAddress(MAIN_PIN_CIRCLE, MAIN_PIN_HALF_CIRCLE);
+addAttribute(adFormFieldset, DISABLED);
+mapPinMain.addEventListener('mousedown', logButton);
+mapPinMain.addEventListener('keydown', logButton);
 validRoomsForGuests();
 rooms.addEventListener('change', validRoomsForGuests);
