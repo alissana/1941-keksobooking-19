@@ -42,6 +42,22 @@ var DISABLED = 'disabled';
 var MIN_TITLE_LENGTH = 30;
 var MAX_TITLE_LENGTH = 100;
 
+var onPopupEscPress = function (a) {
+  if (a.key === ESC_KEY) {
+    closePopup();
+  }
+};
+
+var closePopup = function () {
+  var popup = map.querySelectorAll('.popup');
+
+  for (var i = 0; i < popup.length; i++) {
+    popup[i].classList.add('hidden');
+  }
+
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
 var map = document.querySelector('.map');
 var mapFilters = map.querySelector('.map__filters-container');
 var adForm = document.querySelector('.ad-form');
@@ -227,22 +243,6 @@ function getAddress(xPin, yPin) {
 
   return xLocation + ', ' + yLocation;
 }
-
-var onPopupEscPress = function (a) {
-  if (a.key === ESC_KEY) {
-    closePopup();
-  }
-};
-
-var closePopup = function () {
-  var popup = map.querySelectorAll('.popup');
-
-  for (var i = 0; i < popup.length; i++) {
-    popup[i].classList.add('hidden');
-  }
-
-  document.removeEventListener('keydown', onPopupEscPress);
-};
 
 function clickPin(e) {
   var src = e.currentTarget.querySelector('img').src;
