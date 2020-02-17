@@ -16,12 +16,12 @@ var RoomsForGuests = {
   '3': ['3', '2', '1'],
   '100': ['0']
 };
-var timeKey = {
+var TimeKey = {
   '12:00': ['12:00'],
   '13:00': ['13:00'],
   '14:00': ['14:00']
 };
-var housingPrice = {
+var HousingPrice = {
   bungalo: '0',
   flat: '1000',
   house: '5000',
@@ -41,19 +41,6 @@ var Y_OTHER_PIN = 70;
 var DISABLED = 'disabled';
 var MIN_TITLE_LENGTH = 30;
 var MAX_TITLE_LENGTH = 100;
-
-var onPopupEscPress = function (a) {
-  if (a.key === ESC_KEY) {
-    closePopup();
-  }
-};
-
-var closePopup = function () {
-  var popup = map.querySelector('.popup');
-
-  popup.classList.add('hidden');
-  document.removeEventListener('keydown', onPopupEscPress);
-};
 
 var map = document.querySelector('.map');
 var mapFilters = map.querySelector('.map__filters-container');
@@ -159,8 +146,25 @@ function renderFeature(container, features) {
   }
 }
 
+function onPopupEscPress(evt) {
+  if (evt.key === ESC_KEY) {
+    closePopup();
+  }
+}
+
+function closePopup() {
+  var popup = map.querySelector('.popup');
+
+  if (popup) {
+    popup.remove();
+  }
+
+  document.removeEventListener('keydown', onPopupEscPress);
+}
+
 function createCard(card) {
   var cardElement = cardTemplate.cloneNode(true);
+
   var imageContainer = cardElement.querySelector('.popup__photos');
   var featureContainer = cardElement.querySelector('.popup__features');
   var closeButton = cardElement.querySelector('.popup__close');
@@ -174,7 +178,10 @@ function createCard(card) {
   cardElement.querySelector('.popup__description').textContent = card.offer.description;
   cardElement.querySelector('.popup__avatar').src = card.author.avatar;
 
-  document.addEventListener('keydown', onPopupEscPress);
+  document.addEventListener('keydown', function (evt) {
+    onPopupEscPress(evt);
+  });
+
   closeButton.addEventListener('click', function () {
     closePopup();
   });
@@ -186,11 +193,7 @@ function createCard(card) {
 }
 
 function renderCard(container, card) {
-  var popup = container.querySelector('.map__card.popup');
-  if (popup) {
-    popup.remove();
-  }
-
+  closePopup();
   container.appendChild(card);
 }
 
@@ -202,7 +205,6 @@ function createPin(card) {
   pinElement.querySelector('.map__pin img').src = card.author.avatar;
   pinElement.querySelector('.map__pin img').alt = card.offer.title;
 
-  // pinElement.addEventListener('click', function () {
   pinElement.querySelector('.map__pin').addEventListener('click', function () {
     var container = document.querySelector('.map');
     renderCard(container, createCard(card));
@@ -265,7 +267,7 @@ function activePage(evt) {
   }
 }
 
-function getvalidElement(evt, selectFirst, selectSecond, objectKeys) {
+function getValidElement(evt, selectFirst, selectSecond, objectKeys) {
   var el = (typeof evt === 'undefined') ? selectFirst : evt.currentTarget;
   var validEl = objectKeys[el.value];
   var selectSecondOption = selectSecond.querySelectorAll('option');
@@ -317,8 +319,8 @@ titleInput.addEventListener('invalid', function () {
 typeHouse.addEventListener('change', function (evt) {
   var target = evt.target;
 
-  priceInput.placeholder = housingPrice[target.value];
-  priceInput.min = housingPrice[target.value];
+  priceInput.placeholder = HousingPrice[target.value];
+  priceInput.min = HousingPrice[target.value];
 });
 
 priceInput.addEventListener('input', function (evt) {
@@ -367,13 +369,13 @@ var cardsData = getCards(COUNTCARDS);
 
 getAddress(MAIN_PIN_CIRCLE, MAIN_PIN_HALF_CIRCLE);
 addAttribute(adFormFieldset, DISABLED);
-getvalidElement(undefined, rooms, guests, RoomsForGuests);
+getValidElement(undefined, rooms, guests, RoomsForGuests);
 
 mapPinMain.addEventListener('mousedown', activePage);
 mapPinMain.addEventListener('keydown', activePage);
 rooms.addEventListener('change', function (evt) {
-  getvalidElement(evt, rooms, guests, RoomsForGuests);
+  getValidElement(evt, rooms, guests, RoomsForGuests);
 });
 ckeckin.addEventListener('change', function (evt) {
-  getvalidElement(evt, ckeckin, ckeckout, timeKey);
+  getValidElement(evt, ckeckin, ckeckout, TimeKey);
 });
