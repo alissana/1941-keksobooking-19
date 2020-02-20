@@ -1,6 +1,23 @@
 'use strict';
 
-window.random = (function () {
+(function () {
+  var ESC_KEY = 'Escape';
+  var map = document.querySelector('.map');
+  var popup = map.querySelector('.popup');
+
+  function onPopupEscPress(evt) {
+    if (evt.key === ESC_KEY) {
+      closePopup();
+    }
+  }
+
+  function closePopup() {
+    if (popup) {
+      popup.remove();
+    }
+    document.removeEventListener('keydown', onPopupEscPress);
+  }
+
   function getRandElement(min, max) {
     return Math.floor(min + Math.random() * (max + 1 - min));
   }
@@ -25,7 +42,9 @@ window.random = (function () {
     return newArr;
   }
 
-  return {
+  window.utils = {
+    onPopupEscPress: onPopupEscPress,
+    closePopup: closePopup,
     getRandElement: getRandElement,
     getRandElementArr: getRandElementArr,
     getRandLengthArr: getRandLengthArr

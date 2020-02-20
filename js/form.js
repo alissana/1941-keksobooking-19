@@ -1,20 +1,78 @@
 'use strict';
 
 (function () {
+  var MIN_TITLE_LENGTH = 30;
+  var MAX_TITLE_LENGTH = 100;
+  var RoomsForGuests = {
+    '1': ['1'],
+    '2': ['2', '1'],
+    '3': ['3', '2', '1'],
+    '100': ['0']
+  };
+  var TimeKey = {
+    '12:00': ['12:00'],
+    '13:00': ['13:00'],
+    '14:00': ['14:00']
+  };
+  var HousingPrice = {
+    bungalo: '0',
+    flat: '1000',
+    house: '5000',
+    palace: '10000'
+  };
   var adForm = document.querySelector('.ad-form');
+  var adFormFieldset = adForm.querySelectorAll('fieldset');
   var titleInput = adForm.querySelector('#title');
   var priceInput = adForm.querySelector('#price');
   var typeHouse = adForm.querySelector('#type');
+  var rooms = adForm.querySelector('#room_number');
+  var guests = adForm.querySelector('#capacity');
+  var ckeckin = adForm.querySelector('#timein');
+  var ckeckout = adForm.querySelector('#timeout');
+
+  function getValidElement(evt, selectFirst, selectSecond, objectKeys) {
+    var el = (typeof evt === 'undefined') ? selectFirst : evt.currentTarget;
+    var validEl = objectKeys[el.value];
+    var selectSecondOption = selectSecond.querySelectorAll('option');
+
+    if (selectSecondOption) {
+      for (var i = 0; i < selectSecondOption.length; i++) {
+        var optionEl = selectSecondOption[i];
+
+        optionEl.disabled = (validEl.indexOf(optionEl.value) === -1) ? true : false;
+      }
+      selectSecond.querySelector('option[value="' + validEl[0] + '"]').selected = true;
+    }
+  }
+
+  function addAttribute(tagList, attributeName) {
+    if (tagList) {
+      for (var i = 0; i < tagList.length; i++) {
+        tagList[i].setAttribute(attributeName, 'true');
+      }
+    }
+  }
+
+  function deleteAttribute(tagList, attributeName) {
+    if (tagList) {
+      for (var i = 0; i < tagList.length; i++) {
+        tagList[i].removeAttribute(attributeName);
+      }
+    }
+  }
+
+  getValidElement(undefined, rooms, guests, RoomsForGuests);
+  addAttribute(adFormFieldset, 'disabled');
 
   titleInput.addEventListener('input', function (evt) {
     var target = evt.target;
 
     switch (true) {
-      case target.value.length < window.const.MIN_TITLE_LENGTH:
-        target.setCustomValidity('Минимальная длина заголовка ' + window.const.MIN_TITLE_LENGTH + ' символов');
+      case target.value.length < MIN_TITLE_LENGTH:
+        target.setCustomValidity('Минимальная длина заголовка ' + MIN_TITLE_LENGTH + ' символов');
         break;
-      case target.value.length > window.const.MAX_TITLE_LENGTH:
-        target.setCustomValidity('Максимальная длина заголовка ' + window.const.MAX_TITLE_LENGTH + ' символов');
+      case target.value.length > MAX_TITLE_LENGTH:
+        target.setCustomValidity('Максимальная длина заголовка ' + MAX_TITLE_LENGTH + ' символов');
         break;
       default:
         target.setCustomValidity('');
@@ -43,8 +101,8 @@
   typeHouse.addEventListener('change', function (evt) {
     var target = evt.target;
 
-    priceInput.placeholder = window.dictionaries.HousingPrice[target.value];
-    priceInput.min = window.dictionaries.HousingPrice[target.value];
+    priceInput.placeholder = HousingPrice[target.value];
+    priceInput.min = HousingPrice[target.value];
   });
 
   priceInput.addEventListener('input', function (evt) {
@@ -88,24 +146,15 @@
         break;
     }
   });
-})();
 
-window.validity = (function () {
-  function getValidElement(evt, selectFirst, selectSecond, objectKeys) {
-    var el = (typeof evt === 'undefined') ? selectFirst : evt.currentTarget;
-    var validEl = objectKeys[el.value];
-    var selectSecondOption = selectSecond.querySelectorAll('option');
+  rooms.addEventListener('change', function (evt) {
+    getValidElement(evt, rooms, guests, RoomsForGuests);
+  });
+  ckeckin.addEventListener('change', function (evt) {
+    getValidElement(evt, ckeckin, ckeckout, TimeKey);
+  });
 
-    if (selectSecondOption) {
-      for (var i = 0; i < selectSecondOption.length; i++) {
-        var optionEl = selectSecondOption[i];
-
-        optionEl.disabled = (validEl.indexOf(optionEl.value) === -1) ? true : false;
-      }
-      selectSecond.querySelector('option[value="' + validEl[0] + '"]').selected = true;
-    }
-  }
-  return {
-    getValidElement: getValidElement
+  window.form = {
+    deleteAttribute: deleteAttribute
   };
 })();
