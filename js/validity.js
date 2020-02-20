@@ -84,7 +84,7 @@
         priceInput.setCustomValidity('Минимальная цена за ночь ' + min + ' рублей');
         break;
       default:
-        priceInput.setCustomValidity('');
+        priceInput.setCustomValidity('Обязательное поле');
         break;
     }
   });
