@@ -3,7 +3,6 @@
 (function () {
   var ESC_KEY = 'Escape';
   var map = document.querySelector('.map');
-  var popup = map.querySelector('.popup');
 
   function onPopupEscPress(evt) {
     if (evt.key === ESC_KEY) {
@@ -12,6 +11,8 @@
   }
 
   function closePopup() {
+    var popup = map.querySelector('.popup');
+
     if (popup) {
       popup.remove();
     }
