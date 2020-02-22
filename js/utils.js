@@ -2,7 +2,7 @@
 
 (function () {
   var ESC_KEY = 'Escape';
-  var map = document.querySelector('.map');
+  var ENTER_KEY = 'Enter';
 
   function onPopupEscPress(evt) {
     if (evt.key === ESC_KEY) {
@@ -11,7 +11,7 @@
   }
 
   function closePopup() {
-    var popup = map.querySelector('.popup');
+    var popup = window.map.map.querySelector('.popup');
 
     if (popup) {
       popup.remove();
@@ -44,6 +44,7 @@
   }
 
   window.utils = {
+    ENTER_KEY: ENTER_KEY,
     onPopupEscPress: onPopupEscPress,
     closePopup: closePopup,
     getRandElement: getRandElement,
