@@ -18,7 +18,7 @@
 
 
         var limits = {
-          top: 130,
+          top: 130 - window.map.Y_MAIN_PIN,
           right: Math.round(1200 - window.map.X_MAIN_PIN / 2),
           bottom: 630 - window.map.Y_MAIN_PIN,
           left: 0 - Math.floor(window.map.X_MAIN_PIN / 2)

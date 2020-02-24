@@ -23,7 +23,7 @@
     for (var i = 0; i < numberOfCards; i++) {
       location = {
         x: window.utils.getRandElement(0, 1200 - (X_OTHER_PIN / 2)),
-        y: window.utils.getRandElement(130, 630 - Y_OTHER_PIN)
+        y: window.utils.getRandElement(130 - Y_OTHER_PIN, 630 - Y_OTHER_PIN)
       };
 
       cards[i] = {
