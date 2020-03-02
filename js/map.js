@@ -45,7 +45,7 @@
         mapFiltersForm.classList.remove('mapFiltersForm--disabled');
         window.form.deleteAttribute(adFormFieldset, 'disabled');
 
-        window.backend.load(window.backend.URL.GET_CARDS, window.backend.METHOD.GET, pinSuccessHandler, pinErrorHandler);
+        window.backend.load(window.backend.Url.GET_CARDS, window.backend.Method.GET, pinSuccessHandler, pinErrorHandler);
         window.data.getAddress(X_MAIN_PIN, Y_MAIN_PIN);
       }
     }
