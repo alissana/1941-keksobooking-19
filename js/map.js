@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var COUNTCARDS = 8;
   var X_MAIN_PIN = 65;
   var Y_MAIN_PIN = 84;
   var map = document.querySelector('.map');
@@ -10,7 +9,7 @@
   var mapFiltersForm = mapFilters.querySelector('.map__filters');
   var adForm = document.querySelector('.ad-form');
   var adFormFieldset = adForm.querySelectorAll('fieldset');
-  var cardsData = window.data.getCards(COUNTCARDS);
+  // var cardsData = window.card.renderCard(map, cards);
 
   function activePage(evt) {
     if (evt.button === 0 || evt.key === window.utils.ENTER_KEY) {
@@ -21,7 +20,8 @@
         adForm.classList.remove('ad-form--disabled');
         mapFiltersForm.classList.remove('mapFiltersForm--disabled');
         window.form.deleteAttribute(adFormFieldset, 'disabled');
-        window.pin.renderPins(cardsData);
+
+        window.backend.load(window.backend.Url.GET_CARDS, window.backend.Method.GET, window.pin.PinSuccessHandler, window.pin.errorHandler);
         window.data.getAddress(X_MAIN_PIN, Y_MAIN_PIN);
       }
     }
