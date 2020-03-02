@@ -1,15 +1,15 @@
 'use strict';
 
 (function () {
-  var StatusCode = {
+  var STATUS_CODE = {
     OK: 200
   };
 
-  var Url = {
+  var URL = {
     GET_CARDS: 'https://js.dump.academy/keksobooking/data'
   };
 
-  var Method = {
+  var METHOD = {
     GET: 'GET',
     POST: 'POST'
   };
@@ -20,7 +20,7 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === StatusCode.OK) {
+      if (xhr.status === STATUS_CODE.OK) {
         onSuccess(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
@@ -40,8 +40,8 @@
   }
 
   window.backend = {
-    Method: Method,
-    Url: Url,
+    METHOD: METHOD,
+    URL: URL,
     load: load
   };
 })();
