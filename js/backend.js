@@ -6,7 +6,8 @@
   };
 
   var Url = {
-    GET_CARDS: 'https://js.dump.academy/keksobooking/data'
+    GET_CARDS: 'https://js.dump.academy/keksobooking/data',
+    SEND_FORM: 'https://js.dump.academy/keksobooking'
   };
 
   var Method = {
@@ -15,7 +16,7 @@
   };
 
   var TIMEOUT_IN_MS = 10000;
-  function load(url, method, onSuccess, onError) {
+  function load(data, url, method, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -36,7 +37,7 @@
     xhr.timeout = TIMEOUT_IN_MS;
 
     xhr.open(method, url);
-    xhr.send();
+    xhr.send(data);
   }
 
   window.backend = {

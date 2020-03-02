@@ -20,6 +20,7 @@
     house: '5000',
     palace: '10000'
   };
+  var main = document.querySelector('main');
   var adForm = document.querySelector('.ad-form');
   var adFormFieldset = adForm.querySelectorAll('fieldset');
   var titleInput = adForm.querySelector('#title');
@@ -29,6 +30,8 @@
   var guests = adForm.querySelector('#capacity');
   var ckeckin = adForm.querySelector('#timein');
   var ckeckout = adForm.querySelector('#timeout');
+  var success = document.querySelector('#success').content;
+  var successElement = success.querySelector('.success');
 
   function getValidElement(evt, selectFirst, selectSecond, objectKeys) {
     var el = (typeof evt === 'undefined') ? selectFirst : evt.currentTarget;
@@ -152,6 +155,40 @@
   });
   ckeckin.addEventListener('change', function (evt) {
     getValidElement(evt, ckeckin, ckeckout, TimeKey);
+  });
+
+
+  function closeSuccessPopup() {
+    if (successElement) {
+      successElement.remove();
+    }
+    document.removeEventListener('keydown', window.utils.onPopupEscPress);
+  }
+
+
+  function formSuccessHandler() {
+    var map = document.querySelector('.map');
+    var mapFilters = map.querySelector('.map__filters-container');
+    var mapFiltersForm = mapFilters.querySelector('.map__filters');
+    var mapPin = map.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    map.classList.add('map--faded');
+    adForm.classList.add('ad-form--disabled');
+    mapFiltersForm.classList.add('mapFiltersForm--disabled');
+    addAttribute(adFormFieldset, 'disabled');
+    main.appendChild(successElement);
+    adForm.reset();
+    document.addEventListener('keydown', function (evt) {
+      window.utils.onPopupEscPress(evt, closeSuccessPopup);
+    });
+    for (var i = 0; i < mapPin.length; i++) {
+      mapPin[i].remove();
+    }
+  }
+
+  adForm.addEventListener('submit', function (evt) {
+    window.backend.load(new FormData(adForm), window.backend.Url.SEND_FORM, window.backend.Method.POST, formSuccessHandler, window.pin.errorHandler);
+    evt.preventDefault();
   });
 
   window.form = {

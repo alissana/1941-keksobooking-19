@@ -9,6 +9,7 @@
   var mapFiltersForm = mapFilters.querySelector('.map__filters');
   var adForm = document.querySelector('.ad-form');
   var adFormFieldset = adForm.querySelectorAll('fieldset');
+  var dataEmpty = '';
 
   function activePage(evt) {
     if (evt.button === 0 || evt.key === window.utils.ENTER_KEY) {
@@ -20,7 +21,7 @@
         mapFiltersForm.classList.remove('mapFiltersForm--disabled');
         window.form.deleteAttribute(adFormFieldset, 'disabled');
 
-        window.backend.load(window.backend.Url.GET_CARDS, window.backend.Method.GET, window.pin.PinSuccessHandler, window.pin.errorHandler);
+        window.backend.load(dataEmpty, window.backend.Url.GET_CARDS, window.backend.Method.GET, window.pin.pinSuccessHandler, window.pin.errorHandler);
         window.data.getAddress(X_MAIN_PIN, Y_MAIN_PIN);
       }
     }

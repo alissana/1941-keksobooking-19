@@ -4,7 +4,7 @@
   var pinTemplate = document.querySelector('#pin').content;
   var pinTemplateElement = document.querySelector('.map__pins');
 
-  function PinSuccessHandler(cards) {
+  function pinSuccessHandler(cards) {
     var sortedCards = cards.filter(function (card) {
       var shouldPresent = true;
 
@@ -53,7 +53,7 @@
 
   window.pin = {
     renderPins: renderPins,
-    PinSuccessHandler: PinSuccessHandler,
+    pinSuccessHandler: pinSuccessHandler,
     errorHandler: errorHandler
   };
 })();

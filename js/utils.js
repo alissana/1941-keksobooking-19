@@ -4,19 +4,10 @@
   var ESC_KEY = 'Escape';
   var ENTER_KEY = 'Enter';
 
-  function onPopupEscPress(evt) {
+  function onPopupEscPress(evt, action) {
     if (evt.key === ESC_KEY) {
-      closePopup();
+      action();
     }
-  }
-
-  function closePopup() {
-    var popup = window.map.map.querySelector('.popup');
-
-    if (popup) {
-      popup.remove();
-    }
-    document.removeEventListener('keydown', onPopupEscPress);
   }
 
   function getRandElement(min, max) {
@@ -46,7 +37,6 @@
   window.utils = {
     ENTER_KEY: ENTER_KEY,
     onPopupEscPress: onPopupEscPress,
-    closePopup: closePopup,
     getRandElement: getRandElement,
     getRandElementArr: getRandElementArr,
     getRandLengthArr: getRandLengthArr
