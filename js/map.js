@@ -9,7 +9,6 @@
   var mapFiltersForm = mapFilters.querySelector('.map__filters');
   var adForm = document.querySelector('.ad-form');
   var adFormFieldset = adForm.querySelectorAll('fieldset');
-  // var cardsData = window.card.renderCard(map, cards);
 
   function activePage(evt) {
     if (evt.button === 0 || evt.key === window.utils.ENTER_KEY) {

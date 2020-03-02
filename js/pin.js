@@ -40,7 +40,6 @@
     pinElement.querySelector('.map__pin').addEventListener('click', function () {
       var container = document.querySelector('.map');
       window.card.renderCard(container, window.card.createCard(card));
-      // pinElement.querySelector('.map__pin').classList.add('.map__pin--active');
     });
 
     return pinElement;
