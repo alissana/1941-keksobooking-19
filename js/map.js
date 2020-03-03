@@ -54,7 +54,6 @@
         adForm.classList.remove('ad-form--disabled');
         mapFiltersForm.classList.remove('mapFiltersForm--disabled');
         window.form.deleteAttribute(adFormFieldset, 'disabled');
-
         window.backend.download(pinSuccessHandler, errorHandler);
         window.data.getAddress(X_MAIN_PIN, Y_MAIN_PIN);
       }
