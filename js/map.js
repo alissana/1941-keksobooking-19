@@ -3,12 +3,17 @@
 (function () {
   var X_MAIN_PIN = 65;
   var Y_MAIN_PIN = 84;
+  var main = document.querySelector('main');
   var map = document.querySelector('.map');
   var mapPinMain = map.querySelector('.map__pin--main');
   var mapFilters = map.querySelector('.map__filters-container');
   var mapFiltersForm = mapFilters.querySelector('.map__filters');
   var adForm = document.querySelector('.ad-form');
   var adFormFieldset = adForm.querySelectorAll('fieldset');
+  var error = document.querySelector('#error').content;
+  var errorElement = error.querySelector('.error');
+  var errorContent = errorElement.querySelector('.error__message');
+  var errorButton = errorElement.querySelector('.error__button');
 
   function pinSuccessHandler(cards) {
     var sortedCards = cards.filter(function (card) {
@@ -24,15 +29,20 @@
   }
 
   function errorHandler(errorMessage) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
-
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
+    main.appendChild(errorElement);
+    errorContent.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', errorElement);
+    errorButton.addEventListener('click', function () {
+      window.utils.closePopup(errorElement);
+    });
+    errorElement.addEventListener('click', function () {
+      window.utils.closePopup(errorElement);
+    });
+    document.addEventListener('keydown', function (evt) {
+      window.utils.onPopupEscPress(evt, function () {
+        window.utils.closePopup(errorElement);
+      });
+    });
   }
 
 

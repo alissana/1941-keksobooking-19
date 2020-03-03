@@ -25,7 +25,7 @@
       if (xhr.status === StatusCode.OK) {
         onSuccess(xhr.response);
       } else {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        onError('Произошла ошибка. Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
     xhr.addEventListener('error', function () {

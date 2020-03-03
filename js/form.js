@@ -32,9 +32,6 @@
   var ckeckout = adForm.querySelector('#timeout');
   var success = document.querySelector('#success').content;
   var successElement = success.querySelector('.success');
-  var error = document.querySelector('#error').content;
-  var errorElement = error.querySelector('.error');
-  var errorButton = errorElement.querySelector('.error__button');
 
   function getValidElement(evt, selectFirst, selectSecond, objectKeys) {
     var el = (typeof evt === 'undefined') ? selectFirst : evt.currentTarget;
@@ -182,23 +179,8 @@
     }
   }
 
-  function formErrorHandler() {
-    main.appendChild(errorElement);
-    errorButton.addEventListener('click', function () {
-      window.utils.closePopup(errorElement);
-    });
-    document.addEventListener('click', function () {
-      window.utils.closePopup(errorElement);
-    });
-    document.addEventListener('keydown', function (evt) {
-      window.utils.onPopupEscPress(evt, function () {
-        window.utils.closePopup(errorElement);
-      });
-    });
-  }
-
   adForm.addEventListener('submit', function (evt) {
-    window.backend.save(new FormData(adForm), formSuccessHandler, formErrorHandler);
+    window.backend.save(new FormData(adForm), formSuccessHandler, window.map.errorHandler);
     evt.preventDefault();
   });
 
