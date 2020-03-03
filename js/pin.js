@@ -4,31 +4,6 @@
   var pinTemplate = document.querySelector('#pin').content;
   var pinTemplateElement = document.querySelector('.map__pins');
 
-  function pinSuccessHandler(cards) {
-    var sortedCards = cards.filter(function (card) {
-      var shouldPresent = true;
-
-      if (typeof card.offer === 'undefined' || card.offer === '') {
-        shouldPresent = false;
-      }
-
-      return shouldPresent;
-    });
-    renderPins(sortedCards);
-  }
-
-  function errorHandler(errorMessage) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
-
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement('map', node);
-  }
-
   function createPin(card) {
     var pinElement = pinTemplate.cloneNode(true);
 
@@ -52,8 +27,6 @@
   }
 
   window.pin = {
-    renderPins: renderPins,
-    pinSuccessHandler: pinSuccessHandler,
-    errorHandler: errorHandler
+    renderPins: renderPins
   };
 })();

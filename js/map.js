@@ -9,7 +9,32 @@
   var mapFiltersForm = mapFilters.querySelector('.map__filters');
   var adForm = document.querySelector('.ad-form');
   var adFormFieldset = adForm.querySelectorAll('fieldset');
-  var dataEmpty = '';
+
+  function pinSuccessHandler(cards) {
+    var sortedCards = cards.filter(function (card) {
+      var shouldPresent = true;
+
+      if (typeof card.offer === 'undefined' || card.offer === '') {
+        shouldPresent = false;
+      }
+
+      return shouldPresent;
+    });
+    window.pin.renderPins(sortedCards);
+  }
+
+  function errorHandler(errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  }
+
 
   function activePage(evt) {
     if (evt.button === 0 || evt.key === window.utils.ENTER_KEY) {
@@ -21,7 +46,7 @@
         mapFiltersForm.classList.remove('mapFiltersForm--disabled');
         window.form.deleteAttribute(adFormFieldset, 'disabled');
 
-        window.backend.load(dataEmpty, window.backend.Url.GET_CARDS, window.backend.Method.GET, window.pin.pinSuccessHandler, window.pin.errorHandler);
+        window.backend.download(pinSuccessHandler, errorHandler);
         window.data.getAddress(X_MAIN_PIN, Y_MAIN_PIN);
       }
     }
@@ -34,7 +59,9 @@
     X_MAIN_PIN: X_MAIN_PIN,
     Y_MAIN_PIN: Y_MAIN_PIN,
     map: map,
+    mapFiltersForm: mapFiltersForm,
     mapPinMain: mapPinMain,
-    activePage: activePage
+    activePage: activePage,
+    errorHandler: errorHandler
   };
 })();

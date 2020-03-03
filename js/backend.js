@@ -15,8 +15,9 @@
     POST: 'POST'
   };
 
-  var TIMEOUT_IN_MS = 10000;
-  function load(data, url, method, onSuccess, onError) {
+  var TIMEOUT_IN_MS = 1000;
+
+  function load(url, method, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -35,14 +36,26 @@
     });
 
     xhr.timeout = TIMEOUT_IN_MS;
-
     xhr.open(method, url);
+
+    return xhr;
+  }
+
+  function download(onSuccess, onError) {
+    var xhr = load(Url.GET_CARDS, Method.GET, onSuccess, onError);
+    xhr.send();
+  }
+
+  function save(data, onSuccess, onError) {
+    var xhr = load(Url.SEND_FORM, Method.POST, onSuccess, onError);
     xhr.send(data);
   }
 
   window.backend = {
     Method: Method,
     Url: Url,
-    load: load
+    load: load,
+    download: download,
+    save: save
   };
 })();

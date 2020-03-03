@@ -10,6 +10,13 @@
     }
   }
 
+  function closePopup(element) {
+    if (element) {
+      element.remove();
+    }
+    document.removeEventListener('keydown', onPopupEscPress);
+  }
+
   function getRandElement(min, max) {
     return Math.floor(min + Math.random() * (max + 1 - min));
   }
@@ -37,6 +44,7 @@
   window.utils = {
     ENTER_KEY: ENTER_KEY,
     onPopupEscPress: onPopupEscPress,
+    closePopup: closePopup,
     getRandElement: getRandElement,
     getRandElementArr: getRandElementArr,
     getRandLengthArr: getRandLengthArr

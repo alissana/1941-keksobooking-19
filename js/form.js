@@ -32,6 +32,9 @@
   var ckeckout = adForm.querySelector('#timeout');
   var success = document.querySelector('#success').content;
   var successElement = success.querySelector('.success');
+  var error = document.querySelector('#error').content;
+  var errorElement = error.querySelector('.error');
+  var errorButton = errorElement.querySelector('.error__button');
 
   function getValidElement(evt, selectFirst, selectSecond, objectKeys) {
     var el = (typeof evt === 'undefined') ? selectFirst : evt.currentTarget;
@@ -157,37 +160,45 @@
     getValidElement(evt, ckeckin, ckeckout, TimeKey);
   });
 
-
-  function closeSuccessPopup() {
-    if (successElement) {
-      successElement.remove();
-    }
-    document.removeEventListener('keydown', window.utils.onPopupEscPress);
-  }
-
-
   function formSuccessHandler() {
-    var map = document.querySelector('.map');
-    var mapFilters = map.querySelector('.map__filters-container');
-    var mapFiltersForm = mapFilters.querySelector('.map__filters');
-    var mapPin = map.querySelectorAll('.map__pin:not(.map__pin--main)');
+    var mapPin = window.map.map.querySelectorAll('.map__pin:not(.map__pin--main)');
 
-    map.classList.add('map--faded');
+    window.map.map.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
-    mapFiltersForm.classList.add('mapFiltersForm--disabled');
+    window.map.mapFiltersForm.classList.add('mapFiltersForm--disabled');
     addAttribute(adFormFieldset, 'disabled');
     main.appendChild(successElement);
     adForm.reset();
     document.addEventListener('keydown', function (evt) {
-      window.utils.onPopupEscPress(evt, closeSuccessPopup);
+      window.utils.onPopupEscPress(evt, function () {
+        window.utils.closePopup(successElement);
+      });
+    });
+    document.addEventListener('click', function () {
+      window.utils.closePopup(successElement);
     });
     for (var i = 0; i < mapPin.length; i++) {
       mapPin[i].remove();
     }
   }
 
+  function formErrorHandler() {
+    main.appendChild(errorElement);
+    errorButton.addEventListener('click', function () {
+      window.utils.closePopup(errorElement);
+    });
+    document.addEventListener('click', function () {
+      window.utils.closePopup(errorElement);
+    });
+    document.addEventListener('keydown', function (evt) {
+      window.utils.onPopupEscPress(evt, function () {
+        window.utils.closePopup(errorElement);
+      });
+    });
+  }
+
   adForm.addEventListener('submit', function (evt) {
-    window.backend.load(new FormData(adForm), window.backend.Url.SEND_FORM, window.backend.Method.POST, formSuccessHandler, window.pin.errorHandler);
+    window.backend.save(new FormData(adForm), formSuccessHandler, formErrorHandler);
     evt.preventDefault();
   });
 
