@@ -45,7 +45,6 @@
     });
   }
 
-
   function activePage(evt) {
     if (evt.button === 0 || evt.key === window.utils.ENTER_KEY) {
       var mapPin = map.querySelectorAll('.map__pin:not(.map__pin--main)');
