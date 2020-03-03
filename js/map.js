@@ -46,6 +46,31 @@
   }
 
 
+  function pinSuccessHandler(cards) {
+    var sortedCards = cards.filter(function (card) {
+      var shouldPresent = true;
+
+      if (typeof card.offer === 'undefined' || card.offer === '') {
+        shouldPresent = false;
+      }
+
+      return shouldPresent;
+    });
+    window.pin.renderPins(sortedCards);
+  }
+
+  function pinErrorHandler(errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('map', node);
+  }
+
   function activePage(evt) {
     if (evt.button === 0 || evt.key === window.utils.ENTER_KEY) {
       var mapPin = map.querySelectorAll('.map__pin:not(.map__pin--main)');
@@ -55,7 +80,6 @@
         adForm.classList.remove('ad-form--disabled');
         mapFiltersForm.classList.remove('mapFiltersForm--disabled');
         window.form.deleteAttribute(adFormFieldset, 'disabled');
-
         window.backend.download(pinSuccessHandler, errorHandler);
         window.data.getAddress(X_MAIN_PIN, Y_MAIN_PIN);
       }
