@@ -166,6 +166,8 @@
     addAttribute(adFormFieldset, 'disabled');
     main.appendChild(successElement);
     adForm.reset();
+    window.map.mapPinMain.style.left = '570px';
+    window.map.mapPinMain.style.top = '375px';
     document.addEventListener('keydown', function (evt) {
       window.utils.onPopupEscPress(evt, function () {
         window.utils.closePopup(successElement);

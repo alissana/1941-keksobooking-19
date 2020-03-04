@@ -15,7 +15,7 @@
     POST: 'POST'
   };
 
-  var TIMEOUT_IN_MS = 1000;
+  var TIMEOUT_IN_MS = 10000;
 
   function load(url, method, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
