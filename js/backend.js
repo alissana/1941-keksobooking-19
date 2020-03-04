@@ -6,7 +6,8 @@
   };
 
   var Url = {
-    GET_CARDS: 'https://js.dump.academy/keksobooking/data'
+    GET_CARDS: 'https://js.dump.academy/keksobooking/data',
+    SEND_FORM: 'https://js.dump.academy/keksobooking'
   };
 
   var Method = {
@@ -15,6 +16,7 @@
   };
 
   var TIMEOUT_IN_MS = 10000;
+
   function load(url, method, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -23,7 +25,7 @@
       if (xhr.status === StatusCode.OK) {
         onSuccess(xhr.response);
       } else {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        onError('Произошла ошибка. Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
     xhr.addEventListener('error', function () {
@@ -34,14 +36,26 @@
     });
 
     xhr.timeout = TIMEOUT_IN_MS;
-
     xhr.open(method, url);
+
+    return xhr;
+  }
+
+  function download(onSuccess, onError) {
+    var xhr = load(Url.GET_CARDS, Method.GET, onSuccess, onError);
     xhr.send();
+  }
+
+  function save(data, onSuccess, onError) {
+    var xhr = load(Url.SEND_FORM, Method.POST, onSuccess, onError);
+    xhr.send(data);
   }
 
   window.backend = {
     Method: Method,
     Url: Url,
-    load: load
+    load: load,
+    download: download,
+    save: save
   };
 })();
