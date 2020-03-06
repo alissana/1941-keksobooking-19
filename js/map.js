@@ -14,18 +14,51 @@
   var errorElement = error.querySelector('.error');
   var errorContent = errorElement.querySelector('.error__message');
   var errorButton = errorElement.querySelector('.error__button');
+  var housing = mapFiltersForm.querySelector('#housing-type');
+  var popup = map.querySelector('.popup');
 
-  function pinSuccessHandler(cards) {
+
+  function updatePins(cards) {
     var sortedCards = cards.filter(function (card) {
       var shouldPresent = true;
 
       if (typeof card.offer === 'undefined' || card.offer === '') {
         shouldPresent = false;
       }
-
       return shouldPresent;
     });
     window.pin.renderPins(sortedCards);
+  }
+
+  function pinSuccessHandler(cards) {
+    window.map.dataPins = cards;
+    updatePins(window.map.dataPins);
+  }
+
+  function reloadPins() {
+    if (popup) {
+      window.utils.closePopup(popup);
+    }
+    window.pin.clearPins();
+    window.pin.renderPins(window.map.filteredOffers);
+  }
+
+  mapFiltersForm.addEventListener('change', function () {
+    window.map.filteredOffers = applyFilters(window.map.dataPins);
+    reloadPins();
+  });
+
+  var applyFilters = function (data) {
+    return data
+      .filter(function (offer) {
+        return (
+          filterHousingType(offer)
+        );
+      });
+  };
+
+  function filterHousingType(card) {
+    return card.offer.type === 'any' ? true : card.offer.type === housing.value;
   }
 
   function errorHandler(errorMessage) {
@@ -69,7 +102,8 @@
     map: map,
     mapFiltersForm: mapFiltersForm,
     mapPinMain: mapPinMain,
+    popup: popup,
     activePage: activePage,
-    errorHandler: errorHandler
+    errorHandler: errorHandler,
   };
 })();
