@@ -15,8 +15,6 @@
   var errorContent = errorElement.querySelector('.error__message');
   var errorButton = errorElement.querySelector('.error__button');
   var housing = mapFiltersForm.querySelector('#housing-type');
-  var popup = map.querySelector('.popup');
-
 
   function updatePins(cards) {
     var sortedCards = cards.filter(function (card) {
@@ -36,6 +34,7 @@
   }
 
   function reloadPins() {
+    var popup = map.querySelector('.popup');
     if (popup) {
       window.utils.closePopup(popup);
     }
@@ -102,7 +101,6 @@
     map: map,
     mapFiltersForm: mapFiltersForm,
     mapPinMain: mapPinMain,
-    popup: popup,
     activePage: activePage,
     errorHandler: errorHandler,
   };

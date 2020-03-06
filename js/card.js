@@ -39,15 +39,6 @@
     }
   }
 
-  function closePopup() {
-    var popup = window.map.map.querySelector('.popup');
-
-    if (popup) {
-      popup.remove();
-    }
-    document.removeEventListener('keydown', window.utils.onPopupEscPress);
-  }
-
   function createCard(card) {
     var cardElement = cardTemplate.cloneNode(true);
 
@@ -65,11 +56,15 @@
     cardElement.querySelector('.popup__avatar').src = card.author.avatar;
 
     document.addEventListener('keydown', function (evt) {
-      window.utils.onPopupEscPress(evt, closePopup);
+      var popup = window.map.map.querySelector('.popup');
+      window.utils.onPopupEscPress(evt, function () {
+        window.utils.closePopup(popup);
+      });
     });
 
     closeButton.addEventListener('click', function () {
-      closePopup();
+      var popup = window.map.map.querySelector('.popup');
+      window.utils.closePopup(popup);
     });
 
     renderImage(imageContainer, card.offer.photos);
@@ -79,7 +74,8 @@
   }
 
   function renderCard(container, card) {
-    closePopup();
+    var popup = window.map.map.querySelector('.popup');
+    window.utils.closePopup(popup);
     container.appendChild(card);
   }
 
