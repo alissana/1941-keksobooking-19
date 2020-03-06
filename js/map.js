@@ -14,7 +14,6 @@
   var errorElement = error.querySelector('.error');
   var errorContent = errorElement.querySelector('.error__message');
   var errorButton = errorElement.querySelector('.error__button');
-  var housing = mapFiltersForm.querySelector('#housing-type');
 
   function updatePins(cards) {
     var sortedCards = cards.filter(function (card) {
@@ -26,33 +25,6 @@
       return shouldPresent;
     });
     window.pin.renderPins(sortedCards);
-  }
-
-  function reloadPins() {
-    var popup = map.querySelector('.popup');
-    if (popup) {
-      window.utils.closePopup(popup);
-    }
-    window.pin.clearPins();
-    window.pin.renderPins(window.map.filteredOffers);
-  }
-
-  mapFiltersForm.addEventListener('change', function () {
-    window.map.filteredOffers = applyFilters(window.map.dataPins);
-    reloadPins();
-  });
-
-  var applyFilters = function (data) {
-    return data
-      .filter(function (offer) {
-        return (
-          filterHousingType(offer)
-        );
-      });
-  };
-
-  function filterHousingType(card) {
-    return card.offer.type === 'any' ? true : card.offer.type === housing.value;
   }
 
   function pinSuccessHandler(cards) {
