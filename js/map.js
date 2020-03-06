@@ -28,11 +28,6 @@
     window.pin.renderPins(sortedCards);
   }
 
-  function pinSuccessHandler(cards) {
-    window.map.dataPins = cards;
-    updatePins(window.map.dataPins);
-  }
-
   function reloadPins() {
     var popup = map.querySelector('.popup');
     if (popup) {
@@ -60,6 +55,12 @@
     return card.offer.type === 'any' ? true : card.offer.type === housing.value;
   }
 
+  function pinSuccessHandler(cards) {
+    window.map.dataPins = cards;
+    updatePins(window.map.dataPins);
+    mapFiltersForm.classList.remove('mapFiltersForm--disabled');
+  }
+
   function errorHandler(errorMessage) {
     main.appendChild(errorElement);
     errorContent.textContent = errorMessage;
@@ -84,7 +85,6 @@
       if (mapPin.length === 0) {
         map.classList.remove('map--faded');
         adForm.classList.remove('ad-form--disabled');
-        mapFiltersForm.classList.remove('mapFiltersForm--disabled');
         window.form.deleteAttribute(adFormFieldset, 'disabled');
         window.backend.download(pinSuccessHandler, errorHandler);
         window.data.getAddress(X_MAIN_PIN, Y_MAIN_PIN);
