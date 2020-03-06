@@ -15,21 +15,9 @@
   var errorContent = errorElement.querySelector('.error__message');
   var errorButton = errorElement.querySelector('.error__button');
 
-  function updatePins(cards) {
-    var sortedCards = cards.filter(function (card) {
-      var shouldPresent = true;
-
-      if (typeof card.offer === 'undefined' || card.offer === '') {
-        shouldPresent = false;
-      }
-      return shouldPresent;
-    });
-    window.pin.renderPins(sortedCards);
-  }
-
   function pinSuccessHandler(cards) {
     window.map.dataPins = cards;
-    updatePins(window.map.dataPins);
+    window.filter.updatePins(window.map.dataPins);
     mapFiltersForm.classList.remove('mapFiltersForm--disabled');
   }
 
