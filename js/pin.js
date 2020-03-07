@@ -15,7 +15,7 @@
     pinElement.querySelector('.map__pin').addEventListener('click', function (evt) {
       var container = document.querySelector('.map');
       var activeElement = evt.currentTarget;
-      var activePin = window.map.map.querySelector('.map__pin--active');
+      var activePin = window.map.mapArea.querySelector('.map__pin--active');
 
       if (activePin) {
         activePin.classList.remove('map__pin--active');
@@ -36,7 +36,7 @@
   }
 
   function clearPins() {
-    var buttonPin = window.map.map.querySelectorAll('.map__pin:not(.map__pin--main)');
+    var buttonPin = window.map.mapArea.querySelectorAll('.map__pin:not(.map__pin--main)');
     for (var i = 0; i < buttonPin.length; i++) {
       pinTemplateElement.removeChild(buttonPin[i]);
     }

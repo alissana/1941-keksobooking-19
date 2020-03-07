@@ -56,10 +56,10 @@
     cardElement.querySelector('.popup__avatar').src = card.author.avatar;
 
     document.addEventListener('keydown', function (evt) {
-      var popup = window.map.map.querySelector('.popup');
+      var popup = window.map.mapArea.querySelector('.popup');
 
       window.utils.onPopupEscPress(evt, function () {
-        var activePin = window.map.map.querySelector('.map__pin--active');
+        var activePin = window.map.mapArea.querySelector('.map__pin--active');
         window.utils.closePopup(popup);
 
         if (activePin) {
@@ -69,8 +69,8 @@
     });
 
     closeButton.addEventListener('click', function () {
-      var popup = window.map.map.querySelector('.popup');
-      var activePin = window.map.map.querySelector('.map__pin--active');
+      var popup = window.map.mapArea.querySelector('.popup');
+      var activePin = window.map.mapArea.querySelector('.map__pin--active');
 
       window.utils.closePopup(popup);
       activePin.classList.remove('map__pin--active');
@@ -83,7 +83,7 @@
   }
 
   function renderCard(container, card) {
-    var popup = window.map.map.querySelector('.popup');
+    var popup = window.map.mapArea.querySelector('.popup');
 
     window.utils.closePopup(popup);
     container.appendChild(card);

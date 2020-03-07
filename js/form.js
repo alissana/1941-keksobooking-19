@@ -158,9 +158,9 @@
   });
 
   function formSuccessHandler() {
-    var mapPin = window.map.map.querySelectorAll('.map__pin:not(.map__pin--main)');
+    var mapPin = window.map.mapArea.querySelectorAll('.map__pin:not(.map__pin--main)');
 
-    window.map.map.classList.add('map--faded');
+    window.map.mapArea.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
     window.map.mapFiltersForm.classList.add('mapFiltersForm--disabled');
     addAttribute(adFormFieldset, 'disabled');

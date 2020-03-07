@@ -1,6 +1,12 @@
 'use strict';
 
 (function () {
+  var housingType = window.map.mapFiltersForm.querySelector('#housing-type');
+  var housingPrice = window.map.mapFiltersForm.querySelector('#housing-price');
+  var housingRooms = window.map.mapFiltersForm.querySelector('#housing-rooms');
+  var housingGuests = window.map.mapFiltersForm.querySelector('#housing-guests');
+  var housingFeatures = window.map.mapFiltersForm.querySelectorAll('.map__checkbox');
+
   function updatePins(cards) {
     var sortedCards = cards.filter(function (card) {
       var shouldPresent = true;
@@ -14,7 +20,7 @@
   }
 
   function reloadPins() {
-    var popup = window.map.map.querySelector('.popup');
+    var popup = window.map.mapArea.querySelector('.popup');
     window.utils.closePopup(popup);
     window.pin.clearPins();
     window.pin.renderPins(window.map.filteredOffers);
@@ -39,12 +45,10 @@
   }
 
   function filterHousingType(card) {
-    var housingType = window.map.mapFiltersForm.querySelector('#housing-type');
     return housingType.value === 'any' ? true : card.offer.type === housingType.value;
   }
 
   function filterHousingPrice(card) {
-    var housingPrice = window.map.mapFiltersForm.querySelector('#housing-price');
     var result;
 
     switch (housingPrice.value) {
@@ -67,27 +71,19 @@
   }
 
   function filterHousingRooms(card) {
-    var housingRooms = window.map.mapFiltersForm.querySelector('#housing-rooms');
     return housingRooms.value === 'any' ? true : card.offer.rooms === +housingRooms.value;
   }
 
   function filterHousingGuests(card) {
-    var housingGuests = window.map.mapFiltersForm.querySelector('#housing-guests');
-    return housingGuests.value === 'any' ? true : card.offer.guests === +housingGuests.value;
+    return housingGuests.value === 'any' ? true : card.offer.guests === Number(housingGuests.value);
   }
 
   function filterHousingFeatures(card) {
-    var housingFeatures = window.map.mapFiltersForm.querySelectorAll('.map__checkbox');
-
-    var featuresFiltered = Array.from(housingFeatures, function (el) {
-      return el.checked === false ? true : card.offer.features.indexOf(el.value) !== -1;
+    return Array.from(housingFeatures).filter(function (el) {
+      return el.checked;
+    }).every(function (feature) {
+      return card.offer.features.includes(feature.value);
     });
-
-    var featuresFilteredValue = featuresFiltered.filter(function (feature) {
-      return feature === false;
-    });
-
-    return !featuresFilteredValue.length;
   }
 
   window.filter = {

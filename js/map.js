@@ -4,9 +4,9 @@
   var X_MAIN_PIN = 65;
   var Y_MAIN_PIN = 84;
   var main = document.querySelector('main');
-  var map = document.querySelector('.map');
-  var mapPinMain = map.querySelector('.map__pin--main');
-  var mapFiltersForm = map.querySelector('.map__filters');
+  var mapArea = document.querySelector('.map');
+  var mapPinMain = mapArea.querySelector('.map__pin--main');
+  var mapFiltersForm = mapArea.querySelector('.map__filters');
   var adForm = document.querySelector('.ad-form');
   var adFormFieldset = adForm.querySelectorAll('fieldset');
   var error = document.querySelector('#error').content;
@@ -42,10 +42,10 @@
 
   function activePage(evt) {
     if (evt.button === 0 || evt.key === window.utils.ENTER_KEY) {
-      var mapPin = map.querySelectorAll('.map__pin:not(.map__pin--main)');
+      var mapPin = mapArea.querySelectorAll('.map__pin:not(.map__pin--main)');
 
       if (mapPin.length === 0) {
-        map.classList.remove('map--faded');
+        mapArea.classList.remove('map--faded');
         adForm.classList.remove('ad-form--disabled');
         window.form.deleteAttribute(adFormFieldset, 'disabled');
         window.backend.download(pinSuccessHandler, errorHandler);
@@ -60,7 +60,7 @@
   window.map = {
     X_MAIN_PIN: X_MAIN_PIN,
     Y_MAIN_PIN: Y_MAIN_PIN,
-    map: map,
+    mapArea: mapArea,
     mapFiltersForm: mapFiltersForm,
     mapPinMain: mapPinMain,
     activePage: activePage,
