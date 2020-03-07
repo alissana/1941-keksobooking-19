@@ -39,6 +39,6 @@
 
   window.pin = {
     renderPins: renderPins,
-    clearPins: clearPins
+    clearPins: clearPins,
   };
 })();
