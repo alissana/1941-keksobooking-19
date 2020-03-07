@@ -16,16 +16,9 @@
   var errorButton = errorElement.querySelector('.error__button');
 
   function pinSuccessHandler(cards) {
-    var sortedCards = cards.filter(function (card) {
-      var shouldPresent = true;
-
-      if (typeof card.offer === 'undefined' || card.offer === '') {
-        shouldPresent = false;
-      }
-
-      return shouldPresent;
-    });
-    window.pin.renderPins(sortedCards);
+    window.map.dataPins = cards;
+    window.filter.updatePins(window.map.dataPins);
+    mapFiltersForm.classList.remove('mapFiltersForm--disabled');
   }
 
   function errorHandler(errorMessage) {
@@ -52,7 +45,6 @@
       if (mapPin.length === 0) {
         map.classList.remove('map--faded');
         adForm.classList.remove('ad-form--disabled');
-        mapFiltersForm.classList.remove('mapFiltersForm--disabled');
         window.form.deleteAttribute(adFormFieldset, 'disabled');
         window.backend.download(pinSuccessHandler, errorHandler);
         window.data.getAddress(X_MAIN_PIN, Y_MAIN_PIN);
@@ -70,6 +62,6 @@
     mapFiltersForm: mapFiltersForm,
     mapPinMain: mapPinMain,
     activePage: activePage,
-    errorHandler: errorHandler
+    errorHandler: errorHandler,
   };
 })();
