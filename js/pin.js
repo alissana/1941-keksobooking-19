@@ -15,6 +15,11 @@
     pinElement.querySelector('.map__pin').addEventListener('click', function (evt) {
       var container = document.querySelector('.map');
       var activeElement = evt.currentTarget;
+      var activePin = window.map.map.querySelector('.map__pin--active');
+
+      if (activePin) {
+        activePin.classList.remove('map__pin--active');
+      }
 
       activeElement.classList.add('map__pin--active');
       window.card.renderCard(container, window.card.createCard(card));

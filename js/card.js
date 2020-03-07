@@ -57,11 +57,14 @@
 
     document.addEventListener('keydown', function (evt) {
       var popup = window.map.map.querySelector('.popup');
-      var activePin = window.map.map.querySelector('.map__pin--active');
 
       window.utils.onPopupEscPress(evt, function () {
+        var activePin = window.map.map.querySelector('.map__pin--active');
         window.utils.closePopup(popup);
-        activePin.classList.remove('map__pin--active');
+
+        if (activePin) {
+          activePin.classList.remove('map__pin--active');
+        }
       });
     });
 
@@ -81,6 +84,7 @@
 
   function renderCard(container, card) {
     var popup = window.map.map.querySelector('.popup');
+
     window.utils.closePopup(popup);
     container.appendChild(card);
   }
