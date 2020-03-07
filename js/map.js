@@ -6,8 +6,7 @@
   var main = document.querySelector('main');
   var map = document.querySelector('.map');
   var mapPinMain = map.querySelector('.map__pin--main');
-  var mapFilters = map.querySelector('.map__filters-container');
-  var mapFiltersForm = mapFilters.querySelector('.map__filters');
+  var mapFiltersForm = map.querySelector('.map__filters');
   var adForm = document.querySelector('.ad-form');
   var adFormFieldset = adForm.querySelectorAll('fieldset');
   var error = document.querySelector('#error').content;
