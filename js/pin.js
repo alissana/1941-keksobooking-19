@@ -12,8 +12,11 @@
     pinElement.querySelector('.map__pin img').src = card.author.avatar;
     pinElement.querySelector('.map__pin img').alt = card.offer.title;
 
-    pinElement.querySelector('.map__pin').addEventListener('click', function () {
+    pinElement.querySelector('.map__pin').addEventListener('click', function (evt) {
       var container = document.querySelector('.map');
+      var activeElement = evt.currentTarget;
+
+      activeElement.classList.add('map__pin--active');
       window.card.renderCard(container, window.card.createCard(card));
     });
 

@@ -24,12 +24,15 @@
     main.appendChild(errorElement);
     errorContent.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', errorElement);
+
     errorButton.addEventListener('click', function () {
       window.utils.closePopup(errorElement);
     });
+
     errorElement.addEventListener('click', function () {
       window.utils.closePopup(errorElement);
     });
+
     document.addEventListener('keydown', function (evt) {
       window.utils.onPopupEscPress(evt, function () {
         window.utils.closePopup(errorElement);

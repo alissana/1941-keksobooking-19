@@ -20,10 +20,10 @@
     window.pin.renderPins(window.map.filteredOffers);
   }
 
-  window.map.mapFiltersForm.addEventListener('change', function () {
+  window.map.mapFiltersForm.addEventListener('change', window.utils.debounce(function () {
     window.map.filteredOffers = applyFilters(window.map.dataPins);
     reloadPins();
-  });
+  }));
 
   function applyFilters(data) {
     return data
