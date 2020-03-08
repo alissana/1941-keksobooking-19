@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  window.map.mapPinMain.addEventListener('mousedown', function (evt) {
+  window.data.pinMain.addEventListener('mousedown', function (evt) {
     if (evt.button === 0) {
       evt.preventDefault();
 
@@ -16,7 +16,6 @@
         moveEvt.preventDefault();
         dragger = true;
 
-
         var limits = {
           top: 130 - window.map.Y_MAIN_PIN,
           right: Math.round(1200 - window.map.X_MAIN_PIN / 2),
@@ -29,8 +28,8 @@
           y: startCoords.y - moveEvt.clientY
         };
 
-        var left = window.map.mapPinMain.offsetLeft - shift.x;
-        var top = window.map.mapPinMain.offsetTop - shift.y;
+        var left = window.data.pinMain.offsetLeft - shift.x;
+        var top = window.data.pinMain.offsetTop - shift.y;
 
         startCoords = {
           x: moveEvt.clientX,
@@ -49,8 +48,8 @@
           top = limits.bottom;
         }
 
-        window.map.mapPinMain.style.left = left + 'px';
-        window.map.mapPinMain.style.top = top + 'px';
+        window.data.pinMain.style.left = left + 'px';
+        window.data.pinMain.style.top = top + 'px';
         window.data.getAddress(window.map.X_MAIN_PIN, window.map.Y_MAIN_PIN);
       };
 
@@ -60,9 +59,9 @@
         if (dragger === true) {
           var onClickPreventDefault = function (clickEvt) {
             clickEvt.preventDefault();
-            window.map.mapPinMain.removeEventListener('click', onClickPreventDefault);
+            window.data.pinMain.removeEventListener('click', onClickPreventDefault);
           };
-          window.map.mapPinMain.addEventListener('click', onClickPreventDefault);
+          window.data.pinMain.addEventListener('click', onClickPreventDefault);
         }
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', onMouseUp);

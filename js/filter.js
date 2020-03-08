@@ -1,11 +1,11 @@
 'use strict';
 
 (function () {
-  var housingType = window.map.mapFiltersForm.querySelector('#housing-type');
-  var housingPrice = window.map.mapFiltersForm.querySelector('#housing-price');
-  var housingRooms = window.map.mapFiltersForm.querySelector('#housing-rooms');
-  var housingGuests = window.map.mapFiltersForm.querySelector('#housing-guests');
-  var housingFeatures = window.map.mapFiltersForm.querySelectorAll('.map__checkbox');
+  var housingType = window.map.filters.querySelector('#housing-type');
+  var housingPrice = window.map.filters.querySelector('#housing-price');
+  var housingRooms = window.map.filters.querySelector('#housing-rooms');
+  var housingGuests = window.map.filters.querySelector('#housing-guests');
+  var housingFeatures = window.map.filters.querySelectorAll('.map__checkbox');
 
   function updatePins(cards) {
     var sortedCards = cards.filter(function (card) {
@@ -20,13 +20,13 @@
   }
 
   function reloadPins() {
-    var popup = window.map.mapArea.querySelector('.popup');
+    var popup = document.querySelector('.popup');
     window.utils.closePopup(popup);
     window.pin.clearPins();
     window.pin.renderPins(window.map.filteredOffers);
   }
 
-  window.map.mapFiltersForm.addEventListener('change', window.utils.debounce(function () {
+  window.map.filters.addEventListener('change', window.utils.debounce(function () {
     window.map.filteredOffers = applyFilters(window.map.dataPins);
     reloadPins();
   }));
@@ -71,7 +71,7 @@
   }
 
   function filterHousingRooms(card) {
-    return housingRooms.value === 'any' ? true : card.offer.rooms === +housingRooms.value;
+    return housingRooms.value === 'any' ? true : card.offer.rooms === Number(housingRooms.value);
   }
 
   function filterHousingGuests(card) {

@@ -11,9 +11,9 @@
     }
   }
 
-  function closePopup(element) {
-    if (element) {
-      element.remove();
+  function closePopup(el) {
+    if (el) {
+      el.remove();
     }
     document.removeEventListener('keydown', onPopupEscPress);
   }
