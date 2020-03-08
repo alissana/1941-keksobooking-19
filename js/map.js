@@ -19,7 +19,7 @@
       if (mapPin.length === 0) {
         map.classList.remove('map--faded');
         window.form.adProfile.classList.remove('ad-form--disabled');
-        window.form.deleteAttribute(window.form.adProfileFieldset, 'disabled');
+        window.utils.deleteAttribute(window.form.adProfileFieldset, 'disabled');
         window.backend.download(onPinsRender, window.form.onError);
         window.data.getAddress(X_MAIN_PIN, Y_MAIN_PIN);
       }
