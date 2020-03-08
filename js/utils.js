@@ -11,9 +11,9 @@
     }
   }
 
-  function closePopup(el) {
-    if (el) {
-      el.remove();
+  function closePopup(element) {
+    if (element) {
+      element.remove();
     }
     document.removeEventListener('keydown', onPopupEscPress);
   }
@@ -22,24 +22,24 @@
     return Math.floor(min + Math.random() * (max + 1 - min));
   }
 
-  function getRandElementArr(arr) {
+  function getRandElementArr(array) {
     var randItem;
 
-    for (var i = 0; i < arr.length; i++) {
-      randItem = Math.floor(Math.random() * arr.length);
+    for (var i = 0; i < array.length; i++) {
+      randItem = Math.floor(Math.random() * array.length);
     }
-    return arr[randItem];
+    return array[randItem];
   }
 
-  function getRandLengthArr(arr) {
-    var newArr = [];
-    var newLength = getRandElement(1, arr.length);
+  function getRandLengthArr(array) {
+    var newArray = [];
+    var newLength = getRandElement(1, array.length);
 
     for (var k = 0; k < newLength; k++) {
-      newArr[k] = getRandElementArr(arr);
+      newArray[k] = getRandElementArr(array);
     }
 
-    return newArr;
+    return newArray;
   }
 
   function debounce(cb) {

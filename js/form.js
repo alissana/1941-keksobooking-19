@@ -39,17 +39,17 @@
   var resetButton = adForm.querySelector('.ad-form__reset');
 
   function getValidElement(evt, selectFirst, selectSecond, objectKeys) {
-    var el = (typeof evt === 'undefined') ? selectFirst : evt.currentTarget;
-    var validEl = objectKeys[el.value];
+    var element = (typeof evt === 'undefined') ? selectFirst : evt.currentTarget;
+    var validElement = objectKeys[element.value];
     var selectSecondOption = selectSecond.querySelectorAll('option');
 
     if (selectSecondOption) {
       for (var i = 0; i < selectSecondOption.length; i++) {
-        var optionEl = selectSecondOption[i];
+        var optionElements = selectSecondOption[i];
 
-        optionEl.disabled = (validEl.indexOf(optionEl.value) === -1) ? true : false;
+        optionElements.disabled = (validElement.indexOf(optionElements.value) === -1) ? true : false;
       }
-      selectSecond.querySelector('option[value="' + validEl[0] + '"]').selected = true;
+      selectSecond.querySelector('option[value="' + validElement[0] + '"]').selected = true;
     }
   }
 
