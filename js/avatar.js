@@ -43,7 +43,6 @@
   };
 
   avatarChooser.addEventListener('change', onLoadAvatar);
-
   photoHousingChooser.addEventListener('change', onLoadImageHousing);
 
   window.avatar = {

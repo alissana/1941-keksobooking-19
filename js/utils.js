@@ -5,7 +5,6 @@
   var ENTER_KEY = 'Enter';
   var DEBOUNCE_INTERVAL = 500;
 
-
   function getValidElement(evt, selectFirst, selectSecond, objectKeys) {
     var element = (typeof evt === 'undefined') ? selectFirst : evt.currentTarget;
     var validElement = objectKeys[element.value];
