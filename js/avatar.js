@@ -34,17 +34,20 @@
     }
   }
 
-  avatarChooser.addEventListener('change', function (evt) {
+  var onLoadAvatar = function (evt) {
     loadImageFile(evt, previewAvatar);
-  });
+  };
 
-  photoHousingChooser.addEventListener('change', function (evt) {
+  var onLoadImageHousing = function (evt) {
     loadImageFile(evt, imageHousing);
-  });
+  };
+
+  avatarChooser.addEventListener('change', onLoadAvatar);
+
+  photoHousingChooser.addEventListener('change', onLoadImageHousing);
 
   window.avatar = {
-    loadImageFile: loadImageFile,
-    previewAvatar: previewAvatar,
+    preview: previewAvatar,
     imageHousing: imageHousing
   };
 })();
