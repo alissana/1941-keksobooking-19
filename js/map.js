@@ -23,11 +23,15 @@
 
   function activePage(evt) {
     if (evt.button === 0 || evt.key === window.utils.ENTER_KEY) {
-      map.classList.remove('map--faded');
-      window.backend.download(onSuccessDownload, window.form.onError);
-      window.form.adProfile.classList.remove('ad-form--disabled');
-      window.utils.deleteAttribute(window.form.adProfileFieldset, 'disabled');
-      window.data.getAddress(X_MAIN_PIN, Y_MAIN_PIN);
+      var mapPins = map.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+      if (mapPins.length === 0) {
+        map.classList.remove('map--faded');
+        window.form.adProfile.classList.remove('ad-form--disabled');
+        window.utils.deleteAttribute(window.form.adProfileFieldset, 'disabled');
+        window.backend.download(onSuccessDownload, window.form.onError);
+        window.data.getAddress(X_MAIN_PIN, Y_MAIN_PIN);
+      }
     }
   }
 
