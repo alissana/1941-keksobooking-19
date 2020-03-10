@@ -18,7 +18,6 @@
   function loadImageFile(evt, object) {
     var file = evt.target.files[0];
     var fileName = file.name.toLowerCase();
-
     var matches = FILE_TYPES.some(function (it) {
       return fileName.endsWith(it);
     });

@@ -30,6 +30,7 @@
 
   function renderPins(cards) {
     var takeNumber = cards.length > 5 ? 5 : cards.length;
+
     for (var i = 0; i < takeNumber; i++) {
       pinsContainer.appendChild(createPin(cards[i]));
     }

@@ -5,16 +5,21 @@
   var Y_MAIN_PIN = 84;
   var map = document.querySelector('.map');
   var filters = document.querySelector('.map__filters');
+  var onSuccessDownload = function (cards) {
+    loadPins(cards);
+  };
+  var onMouseDownMainPin = function (evt) {
+    activePage(evt);
+  };
+  var onKeyDownMainPin = function (evt) {
+    activePage(evt);
+  };
 
   function loadPins(cards) {
     window.map.dataPins = cards;
     window.filter.updatePins(window.map.dataPins);
     filters.classList.remove('mapFiltersForm--disabled');
   }
-
-  var onSuccessDownload = function (cards) {
-    loadPins(cards);
-  };
 
   function activePage(evt) {
     if (evt.button === 0 || evt.key === window.utils.ENTER_KEY) {
@@ -25,14 +30,6 @@
       window.data.getAddress(X_MAIN_PIN, Y_MAIN_PIN);
     }
   }
-
-  var onMouseDownMainPin = function (evt) {
-    activePage(evt);
-  };
-
-  var onKeyDownMainPin = function (evt) {
-    activePage(evt);
-  };
 
   window.data.pinMain.addEventListener('mousedown', onMouseDownMainPin);
   window.data.pinMain.addEventListener('keydown', onKeyDownMainPin);
