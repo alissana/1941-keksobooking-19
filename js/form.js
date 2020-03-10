@@ -37,11 +37,17 @@
   var errorContent = errorPopup.querySelector('.error__message');
   var errorButton = errorPopup.querySelector('.error__button');
   var resetButton = adForm.querySelector('.ad-form__reset');
+  var onSubmitForm = function () {
+    resetPage();
+  };
+  var onClickResetForm = function () {
+    resetPage();
+  };
 
   window.utils.getValidElement(undefined, rooms, guests, roomsForGuestsMap);
   window.utils.addAttribute(adFormFieldset, 'disabled');
 
-  function onFormSuccessSubmit() {
+  function resetPage() {
     var mapPin = window.map.container.querySelectorAll('.map__pin:not(.map__pin--main)');
 
     window.map.container.classList.add('map--faded');
@@ -50,6 +56,7 @@
     window.utils.addAttribute(adFormFieldset, 'disabled');
     main.appendChild(successPopup);
     adForm.reset();
+    window.card.closeCard();
     window.avatar.preview.src = 'img/muffin-grey.svg';
     window.avatar.imageHousing.src = ' ';
     window.data.pinMain.style.left = '570px';
@@ -182,24 +189,11 @@
   });
 
   adForm.addEventListener('submit', function (evt) {
-    window.backend.save(new FormData(adForm), onFormSuccessSubmit, onError);
+    window.backend.save(new FormData(adForm), onSubmitForm, onError);
     evt.preventDefault();
   });
 
-  resetButton.addEventListener('click', function (evt) {
-    var popup = document.querySelector('.popup');
-
-    evt.preventDefault();
-    adForm.reset();
-    window.map.filters.reset();
-    window.pin.clearPins();
-    window.utils.closePopup(popup);
-    window.data.pinMain.style.left = '570px';
-    window.data.pinMain.style.top = '375px';
-    window.avatar.preview.src = 'img/muffin-grey.svg';
-    window.avatar.imageHousing.src = ' ';
-    window.data.getAddress(window.data.MAIN_PIN_X, window.data.MAIN_PIN_Y);
-  });
+  resetButton.addEventListener('click', onClickResetForm);
 
   window.form = {
     adProfile: adForm,
