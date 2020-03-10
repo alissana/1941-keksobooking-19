@@ -32,6 +32,10 @@
     getAddress: getAddress,
     pinMain: pinMain,
     MAIN_PIN_X: MAIN_PIN_CIRCLE,
-    MAIN_PIN_Y: MAIN_PIN_HALF_CIRCLE
+    MAIN_PIN_Y: MAIN_PIN_HALF_CIRCLE,
+    LEFT_X_MAP: LEFT_X_MAP,
+    RIGHT_X_MAP: RIGHT_X_MAP,
+    TOP_Y_MAP: TOP_Y_MAP,
+    BOTTOM_Y_MAP: BOTTOM_Y_MAP
   };
 })();

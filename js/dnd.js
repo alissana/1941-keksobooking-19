@@ -13,23 +13,21 @@
       var dragger = false;
 
       var onMouseMove = function (moveEvt) {
-        moveEvt.preventDefault();
-        dragger = true;
-
         var limits = {
-          top: 130 - window.map.Y_MAIN_PIN,
-          right: Math.round(1200 - window.map.X_MAIN_PIN / 2),
-          bottom: 630 - window.map.Y_MAIN_PIN,
-          left: 0 - Math.floor(window.map.X_MAIN_PIN / 2)
+          top: window.data.TOP_Y_MAP - window.map.Y_MAIN_PIN,
+          right: Math.round(window.data.RIGHT_X_MAP - window.map.X_MAIN_PIN / 2),
+          bottom: window.data.BOTTOM_Y_MAP - window.map.Y_MAIN_PIN,
+          left: window.data.LEFT_X_MAP - Math.floor(window.map.X_MAIN_PIN / 2)
         };
-
         var shift = {
           x: startCoords.x - moveEvt.clientX,
           y: startCoords.y - moveEvt.clientY
         };
-
         var left = window.data.pinMain.offsetLeft - shift.x;
         var top = window.data.pinMain.offsetTop - shift.y;
+
+        moveEvt.preventDefault();
+        dragger = true;
 
         startCoords = {
           x: moveEvt.clientX,
@@ -63,6 +61,7 @@
           };
           window.data.pinMain.addEventListener('click', onClickPreventDefault);
         }
+
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', onMouseUp);
       };
