@@ -194,6 +194,8 @@
     window.utils.closePopup(popup);
     window.data.pinMain.style.left = '570px';
     window.data.pinMain.style.top = '375px';
+    window.avatar.preview.src = 'img/muffin-grey.svg';
+    window.avatar.imageHousing.src = ' ';
     window.data.getAddress(window.data.MAIN_PIN_X, window.data.MAIN_PIN_Y);
   });
 
