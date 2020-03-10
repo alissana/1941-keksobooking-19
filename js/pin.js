@@ -36,10 +36,11 @@
   }
 
   function clearPins() {
-    var buttonPin = window.map.container.querySelectorAll('.map__pin:not(.map__pin--main)');
-    for (var i = 0; i < buttonPin.length; i++) {
-      pinsContainer.removeChild(buttonPin[i]);
-    }
+    var pins = window.map.container.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    pins.forEach(function (item) {
+      pinsContainer.removeChild(item);
+    });
   }
 
   window.pin = {

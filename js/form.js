@@ -55,17 +55,20 @@
     window.data.pinMain.style.left = '570px';
     window.data.pinMain.style.top = '375px';
     window.data.getAddress(window.data.MAIN_PIN_X, window.data.MAIN_PIN_Y);
+
+    mapPin.forEach(function (item) {
+      item.remove();
+    });
+
     document.addEventListener('keydown', function (evt) {
       window.utils.onPopupEscPress(evt, function () {
         window.utils.closePopup(successPopup);
       });
     });
+
     document.addEventListener('click', function () {
       window.utils.closePopup(successPopup);
     });
-    for (var i = 0; i < mapPin.length; i++) {
-      mapPin[i].remove();
-    }
   }
 
   function onError(errorMessage) {
@@ -105,7 +108,6 @@
   });
 
   title.addEventListener('invalid', function () {
-
     switch (true) {
       case title.validity.tooShort:
         title.setCustomValidity('Минимальная длина заголовка 30 символов');
