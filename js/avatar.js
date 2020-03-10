@@ -34,16 +34,16 @@
     }
   }
 
-  var onLoadAvatar = function (evt) {
+  var onChangeAvatar = function (evt) {
     loadImageFile(evt, previewAvatar);
   };
 
-  var onLoadImageHousing = function (evt) {
+  var onChangeImageHousing = function (evt) {
     loadImageFile(evt, imageHousing);
   };
 
-  avatarChooser.addEventListener('change', onLoadAvatar);
-  photoHousingChooser.addEventListener('change', onLoadImageHousing);
+  avatarChooser.addEventListener('change', onChangeAvatar);
+  photoHousingChooser.addEventListener('change', onChangeImageHousing);
 
   window.avatar = {
     preview: previewAvatar,
