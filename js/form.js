@@ -37,37 +37,12 @@
   var errorContent = errorPopup.querySelector('.error__message');
   var errorButton = errorPopup.querySelector('.error__button');
   var resetButton = adForm.querySelector('.ad-form__reset');
-  var onSubmitForm = function () {
-    resetPage();
-  };
   var onClickResetForm = function () {
     resetPage();
   };
-
-  window.utils.getValidElement(undefined, rooms, guests, roomsForGuestsMap);
-  window.utils.addAttribute(adFormFieldset, 'disabled');
-
-  function resetPage() {
-    var mapPin = window.map.container.querySelectorAll('.map__pin:not(.map__pin--main)');
-
-    window.map.container.classList.add('map--faded');
-    adForm.classList.add('ad-form--disabled');
-    window.map.filters.classList.add('mapFiltersForm--disabled');
-    window.utils.addAttribute(adFormFieldset, 'disabled');
+  var onSubmitForm = function () {
+    resetPage();
     main.appendChild(successPopup);
-    adForm.reset();
-    window.card.closeCard();
-    window.avatar.preview.src = 'img/muffin-grey.svg';
-    window.avatar.imageHousing.src = ' ';
-    window.data.pinMain.style.left = '570px';
-    window.data.pinMain.style.top = '375px';
-    window.data.getAddress(window.data.MAIN_PIN_X, window.data.MAIN_PIN_Y);
-
-    mapPin.forEach(function (item) {
-      item.remove();
-    });
-
-    window.data.pinMain.addEventListener('mousedown', window.map.onMouseDownMainPin);
 
     document.addEventListener('keydown', function (evt) {
       window.utils.onPopupEscPress(evt, function () {
@@ -78,6 +53,28 @@
     document.addEventListener('click', function () {
       window.utils.closePopup(successPopup);
     });
+  };
+
+  window.utils.getValidElement(undefined, rooms, guests, roomsForGuestsMap);
+
+  function resetPage() {
+    window.map.container.classList.add('map--faded');
+    adForm.classList.add('ad-form--disabled');
+    window.map.filters.reset();
+    window.map.filters.classList.add('mapFiltersForm--disabled');
+    adForm.reset();
+    window.utils.addAttribute(adFormFieldset, 'disabled');
+    window.card.closeCard();
+    window.pin.clearPins();
+    window.avatar.preview.src = 'img/muffin-grey.svg';
+    window.avatar.imageHousing.src = ' ';
+    window.data.pinMain.style.left = '570px';
+    window.data.pinMain.style.top = '375px';
+    price.placeholder = 'от 1000';
+    price.min = '1000';
+    window.data.getAddress(window.data.MAIN_PIN_X, window.data.MAIN_PIN_Y);
+
+    window.data.pinMain.addEventListener('mousedown', window.map.onMouseDownMainPin);
   }
 
   function onError(errorMessage) {
