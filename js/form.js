@@ -73,6 +73,8 @@
     price.placeholder = 'от 1000';
     price.min = '1000';
     window.data.getAddress(window.data.MAIN_PIN_X, window.data.MAIN_PIN_Y);
+    window.utils.getValidElement(undefined, rooms, guests, roomsForGuestsMap);
+    window.utils.getValidElement(undefined, timeIn, timeOut, timeKeyMap);
 
     window.data.pinMain.addEventListener('mousedown', window.map.onMouseDownMainPin);
   }
