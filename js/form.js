@@ -55,7 +55,7 @@
     });
   };
 
-  window.utils.getValidElement(undefined, rooms, guests, roomsForGuestsMap);
+  window.utils.addAttribute(adFormFieldset, 'disabled');
 
   function resetPage() {
     window.map.container.classList.add('map--faded');
@@ -179,13 +179,16 @@
     }
   });
 
-  rooms.addEventListener('change', function (evt) {
+  var onChangeRooms = function (evt) {
     window.utils.getValidElement(evt, rooms, guests, roomsForGuestsMap);
-  });
+  };
 
-  timeIn.addEventListener('change', function (evt) {
+  var onChangeTimeIn = function (evt) {
     window.utils.getValidElement(evt, timeIn, timeOut, timeKeyMap);
-  });
+  };
+
+  rooms.addEventListener('change', onChangeRooms);
+  timeIn.addEventListener('change', onChangeTimeIn);
 
   adForm.addEventListener('submit', function (evt) {
     window.backend.save(new FormData(adForm), onSubmitForm, onError);

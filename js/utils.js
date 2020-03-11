@@ -8,14 +8,26 @@
   function getValidElement(evt, selectFirst, selectSecond, objectKeys) {
     var element = (typeof evt === 'undefined') ? selectFirst : evt.currentTarget;
     var validElement = objectKeys[element.value];
+    var selectFirstOptions = selectFirst.querySelectorAll('option');
     var selectSecondOptions = selectSecond.querySelectorAll('option');
+
+    deleteAttribute(selectFirstOptions, 'selected');
+    selectFirst.querySelector('option[value="' + element.value + '"]').setAttribute('selected', '');
 
     if (selectSecondOptions) {
       selectSecondOptions.forEach(function (item) {
         item.disabled = (validElement.indexOf(item.value) === -1) ? true : false;
       });
 
-      selectSecond.querySelector('option[value="' + validElement[0] + '"]').selected = true;
+      selectSecond.addEventListener('change', function (e) {
+        var valid = e.target.value;
+
+        deleteAttribute(selectSecondOptions, 'selected');
+        selectSecond.querySelector('option[value="' + valid + '"]').setAttribute('selected', '');
+      });
+
+      deleteAttribute(selectSecondOptions, 'selected');
+      selectSecond.querySelector('option[value="' + validElement[0] + '"]').setAttribute('selected', '');
     }
   }
 
