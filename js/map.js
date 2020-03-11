@@ -33,6 +33,8 @@
         window.data.getAddress(X_MAIN_PIN, Y_MAIN_PIN);
       }
     }
+    window.data.pinMain.removeEventListener('mousedown', onMouseDownMainPin);
+    window.data.pinMain.removeEventListener('keydown', onKeyDownMainPin);
   }
 
   window.data.pinMain.addEventListener('mousedown', onMouseDownMainPin);
@@ -42,6 +44,7 @@
     X_MAIN_PIN: X_MAIN_PIN,
     Y_MAIN_PIN: Y_MAIN_PIN,
     container: map,
-    filters: filters
+    filters: filters,
+    onMouseDownMainPin: onMouseDownMainPin
   };
 })();

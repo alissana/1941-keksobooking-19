@@ -67,6 +67,8 @@
       item.remove();
     });
 
+    window.data.pinMain.addEventListener('mousedown', window.map.onMouseDownMainPin);
+
     document.addEventListener('keydown', function (evt) {
       window.utils.onPopupEscPress(evt, function () {
         window.utils.closePopup(successPopup);
@@ -134,7 +136,7 @@
   typeHouse.addEventListener('change', function (evt) {
     var target = evt.target;
 
-    price.placeholder = housingPriceMap[target.value];
+    price.placeholder = 'от ' + housingPriceMap[target.value];
     price.min = housingPriceMap[target.value];
   });
 
