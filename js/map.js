@@ -5,15 +5,6 @@
   var Y_MAIN_PIN = 84;
   var map = document.querySelector('.map');
   var filters = document.querySelector('.map__filters');
-  var onSuccessDownload = function (cards) {
-    loadPins(cards);
-  };
-  var onMouseDownMainPin = function (evt) {
-    activePage(evt);
-  };
-  var onKeyDownMainPin = function (evt) {
-    activePage(evt);
-  };
 
   function loadPins(cards) {
     window.map.dataPins = cards;
@@ -36,6 +27,16 @@
     window.data.pinMain.removeEventListener('mousedown', onMouseDownMainPin);
     window.data.pinMain.removeEventListener('keydown', onKeyDownMainPin);
   }
+
+  var onSuccessDownload = function (cards) {
+    loadPins(cards);
+  };
+  var onMouseDownMainPin = function (evt) {
+    activePage(evt);
+  };
+  var onKeyDownMainPin = function (evt) {
+    activePage(evt);
+  };
 
   window.data.pinMain.addEventListener('mousedown', onMouseDownMainPin);
   window.data.pinMain.addEventListener('keydown', onKeyDownMainPin);
