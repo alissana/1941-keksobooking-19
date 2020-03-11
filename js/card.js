@@ -9,12 +9,6 @@
   };
   var cardTemplate = document.querySelector('#card')
     .content;
-  var onKeyDownClosePopup = function () {
-    closeCard();
-  };
-  var onMouseDownClosePopup = function () {
-    closeCard();
-  };
 
   function renderImage(container, photos) {
     container.innerHTML = '';
@@ -51,6 +45,13 @@
       activePin.classList.remove('map__pin--active');
     }
   }
+
+  var onKeyDownClosePopup = function () {
+    closeCard();
+  };
+  var onMouseDownClosePopup = function () {
+    closeCard();
+  };
 
   function createCard(card) {
     var cardPopup = cardTemplate.cloneNode(true);
