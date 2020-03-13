@@ -32,13 +32,13 @@
     }
   }
 
-  var onChangeAvatar = function (evt) {
+  function onChangeAvatar(evt) {
     loadImageFile(evt, previewAvatar);
-  };
+  }
 
-  var onChangeImageHousing = function (evt) {
+  function onChangeImageHousing(evt) {
     loadImageFile(evt, imageHousing);
-  };
+  }
 
   avatarChooser.addEventListener('change', onChangeAvatar);
   photoHousingChooser.addEventListener('change', onChangeImageHousing);

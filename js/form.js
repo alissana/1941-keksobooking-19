@@ -3,6 +3,10 @@
 (function () {
   var MIN_TITLE_LENGTH = 30;
   var MAX_TITLE_LENGTH = 100;
+  var MAIN_PIN_LOCATION_X = '570px';
+  var MAIN_PIN_LOCATION_Y = '375px';
+  var PRICE_FLAT_MIN = '1000';
+  var AVATAR_SRC_DEFAULT = 'img/muffin-grey.svg';
   var roomsForGuestsMap = {
     '1': ['1'],
     '2': ['2', '1'],
@@ -37,10 +41,47 @@
   var errorContent = errorPopup.querySelector('.error__message');
   var errorButton = errorPopup.querySelector('.error__button');
   var resetButton = adForm.querySelector('.ad-form__reset');
-  var onClickResetForm = function () {
+
+  window.utils.addAttribute(adFormFieldset, 'disabled');
+
+  function lockForm() {
+    adForm.classList.add('ad-form--disabled');
+    window.utils.addAttribute(adFormFieldset, 'disabled');
+  }
+
+  function resetValues() {
+    adForm.reset();
+    window.avatar.preview.src = AVATAR_SRC_DEFAULT;
+    window.avatar.imageHousing.src = ' ';
+    price.placeholder = 'от ' + PRICE_FLAT_MIN;
+    price.min = PRICE_FLAT_MIN;
+    window.utils.getValidElement(undefined, rooms, guests, roomsForGuestsMap);
+    window.utils.getValidElement(undefined, timeIn, timeOut, timeKeyMap);
+  }
+
+  function resetMap() {
+    window.map.container.classList.add('map--faded');
+    window.card.closeCard();
+    window.pin.clearPins();
+    window.map.filters.reset();
+    window.map.filters.classList.add('mapFiltersForm--disabled');
+    window.data.getAddress(window.data.MAIN_PIN_X, window.data.MAIN_PIN_HALF_CIRCLE);
+    window.data.pinMain.style.left = MAIN_PIN_LOCATION_X;
+    window.data.pinMain.style.top = MAIN_PIN_LOCATION_Y;
+    window.data.pinMain.addEventListener('mousedown', window.map.onMouseDownMainPin);
+  }
+
+  function resetPage() {
+    resetMap();
+    lockForm();
+    resetValues();
+  }
+
+  function onClickResetForm() {
     resetPage();
-  };
-  var onSubmitForm = function () {
+  }
+
+  function onSubmitForm() {
     resetPage();
     main.appendChild(successPopup);
 
@@ -53,30 +94,6 @@
     document.addEventListener('click', function () {
       window.utils.closePopup(successPopup);
     });
-  };
-
-  window.utils.addAttribute(adFormFieldset, 'disabled');
-
-  function resetPage() {
-    window.map.container.classList.add('map--faded');
-    adForm.classList.add('ad-form--disabled');
-    window.map.filters.reset();
-    window.map.filters.classList.add('mapFiltersForm--disabled');
-    adForm.reset();
-    window.utils.addAttribute(adFormFieldset, 'disabled');
-    window.card.closeCard();
-    window.pin.clearPins();
-    window.avatar.preview.src = 'img/muffin-grey.svg';
-    window.avatar.imageHousing.src = ' ';
-    window.data.pinMain.style.left = '570px';
-    window.data.pinMain.style.top = '375px';
-    price.placeholder = 'от 1000';
-    price.min = '1000';
-    window.data.getAddress(window.data.MAIN_PIN_X, window.data.MAIN_PIN_Y);
-    window.utils.getValidElement(undefined, rooms, guests, roomsForGuestsMap);
-    window.utils.getValidElement(undefined, timeIn, timeOut, timeKeyMap);
-
-    window.data.pinMain.addEventListener('mousedown', window.map.onMouseDownMainPin);
   }
 
   function onError(errorMessage) {
@@ -181,13 +198,13 @@
     }
   });
 
-  var onChangeRooms = function (evt) {
+  function onChangeRooms(evt) {
     window.utils.getValidElement(evt, rooms, guests, roomsForGuestsMap);
-  };
+  }
 
-  var onChangeTimeIn = function (evt) {
+  function onChangeTimeIn(evt) {
     window.utils.getValidElement(evt, timeIn, timeOut, timeKeyMap);
-  };
+  }
 
   rooms.addEventListener('change', onChangeRooms);
   timeIn.addEventListener('change', onChangeTimeIn);

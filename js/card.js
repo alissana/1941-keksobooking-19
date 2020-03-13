@@ -30,7 +30,7 @@
       var li = document.createElement('li');
 
       li.textContent = item;
-      li.className = 'popup__feature popup__feature--' + li.textContent;
+      li.className = 'popup__feature popup__feature--' + item;
       container.appendChild(li);
     });
   }
@@ -46,12 +46,13 @@
     }
   }
 
-  var onKeyDownClosePopup = function () {
+  function onKeyDownClosePopup() {
     closeCard();
-  };
-  var onMouseDownClosePopup = function () {
+  }
+
+  function onMouseDownClosePopup() {
     closeCard();
-  };
+  }
 
   function createCard(card) {
     var cardPopup = cardTemplate.cloneNode(true);
