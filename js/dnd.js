@@ -1,6 +1,11 @@
 'use strict';
 
 (function () {
+  function onClickPreventDefault(clickEvt) {
+    clickEvt.preventDefault();
+    window.data.pinMain.removeEventListener('click', onClickPreventDefault);
+  }
+
   function onMouseMove(moveEvt) {
     var limits = {
       top: window.data.TOP_Y_MAP - window.data.MAIN_PIN_Y,
@@ -44,10 +49,6 @@
     upEvt.preventDefault();
 
     if (window.dnd.isDragger === true) {
-      var onClickPreventDefault = function (clickEvt) {
-        clickEvt.preventDefault();
-        window.data.pinMain.removeEventListener('click', onClickPreventDefault);
-      };
       window.data.pinMain.addEventListener('click', onClickPreventDefault);
     }
 
