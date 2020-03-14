@@ -71,4 +71,6 @@
       document.addEventListener('mouseup', onMouseUp);
     }
   });
+
+  window.dnd = {};
 })();

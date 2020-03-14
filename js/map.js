@@ -43,6 +43,4 @@
     filters: filters,
     onMouseDownMainPin: onMouseDownMainPin
   };
-
-  window.dnd = {};
 })();
