@@ -1,4 +1,3 @@
-// Файл avatar.js
 'use strict';
 
 (function () {
@@ -18,7 +17,6 @@
   function loadImageFile(evt, object) {
     var file = evt.target.files[0];
     var fileName = file.name.toLowerCase();
-
     var matches = FILE_TYPES.some(function (it) {
       return fileName.endsWith(it);
     });
@@ -34,13 +32,13 @@
     }
   }
 
-  var onChangeAvatar = function (evt) {
+  function onChangeAvatar(evt) {
     loadImageFile(evt, previewAvatar);
-  };
+  }
 
-  var onChangeImageHousing = function (evt) {
+  function onChangeImageHousing(evt) {
     loadImageFile(evt, imageHousing);
-  };
+  }
 
   avatarChooser.addEventListener('change', onChangeAvatar);
   photoHousingChooser.addEventListener('change', onChangeImageHousing);

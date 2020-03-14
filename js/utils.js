@@ -8,31 +8,38 @@
   function getValidElement(evt, selectFirst, selectSecond, objectKeys) {
     var element = (typeof evt === 'undefined') ? selectFirst : evt.currentTarget;
     var validElement = objectKeys[element.value];
-    var selectSecondOption = selectSecond.querySelectorAll('option');
+    var selectSecondOptions = selectSecond.querySelectorAll('option');
 
-    if (selectSecondOption) {
-      for (var i = 0; i < selectSecondOption.length; i++) {
-        var optionElements = selectSecondOption[i];
+    if (selectSecondOptions) {
+      selectSecondOptions.forEach(function (item) {
+        item.disabled = (validElement.indexOf(item.value) === -1) ? true : false;
+      });
 
-        optionElements.disabled = (validElement.indexOf(optionElements.value) === -1) ? true : false;
-      }
-      selectSecond.querySelector('option[value="' + validElement[0] + '"]').selected = true;
+      deleteAttribute(selectSecondOptions, 'selected');
+      selectSecond.querySelector('option[value="' + validElement[0] + '"]').setAttribute('selected', '');
+
+      selectSecond.addEventListener('change', function (e) {
+        var valid = e.target.value;
+
+        deleteAttribute(selectSecondOptions, 'selected');
+        selectSecond.querySelector('option[value="' + valid + '"]').setAttribute('selected', '');
+      });
     }
   }
 
   function addAttribute(tagList, attributeName) {
     if (tagList) {
-      for (var i = 0; i < tagList.length; i++) {
-        tagList[i].setAttribute(attributeName, 'true');
-      }
+      tagList.forEach(function (item) {
+        item.setAttribute(attributeName, 'true');
+      });
     }
   }
 
   function deleteAttribute(tagList, attributeName) {
     if (tagList) {
-      for (var i = 0; i < tagList.length; i++) {
-        tagList[i].removeAttribute(attributeName);
-      }
+      tagList.forEach(function (item) {
+        item.removeAttribute(attributeName);
+      });
     }
   }
 
@@ -46,6 +53,7 @@
     if (element) {
       element.remove();
     }
+
     document.removeEventListener('keydown', onPopupEscPress);
   }
 
@@ -54,9 +62,11 @@
 
     return function () {
       var parameters = arguments;
+
       if (lastTimeout) {
         window.clearTimeout(lastTimeout);
       }
+
       lastTimeout = window.setTimeout(function () {
         cb.apply(null, parameters);
       }, DEBOUNCE_INTERVAL);

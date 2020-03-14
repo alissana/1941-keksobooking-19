@@ -9,12 +9,12 @@
 
   function updatePins(cards) {
     var sortedCards = cards.filter(function (card) {
-      var shouldPresent = true;
+      var isShouldPresent = true;
 
       if (typeof card.offer === 'undefined' || card.offer === '') {
-        shouldPresent = false;
+        isShouldPresent = false;
       }
-      return shouldPresent;
+      return isShouldPresent;
     });
     window.pin.renderPins(sortedCards);
   }
