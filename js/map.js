@@ -15,7 +15,7 @@
     window.filter.updatePins(window.map.dataPins);
     filters.classList.remove('mapFiltersForm--disabled');
     window.utils.deleteAttribute(filterSelectors, 'disabled');
-    featuresFieldset.removeAttribute('disabled', false);
+    featuresFieldset.removeAttribute('disabled');
   }
 
   function activePage(evt) {
