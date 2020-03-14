@@ -3,11 +3,19 @@
 (function () {
   var map = document.querySelector('.map');
   var filters = document.querySelector('.map__filters');
+  var filterSelectors = document.querySelectorAll('.map__filter');
+  var featuresFieldset = document.querySelector('.map__features');
+
+  filters.classList.add('mapFiltersForm--disabled');
+  window.utils.addAttribute(filterSelectors, 'disabled');
+  featuresFieldset.setAttribute('disabled', true);
 
   function loadPins(cards) {
     window.map.dataPins = cards;
     window.filter.updatePins(window.map.dataPins);
     filters.classList.remove('mapFiltersForm--disabled');
+    window.utils.deleteAttribute(filterSelectors, 'disabled');
+    featuresFieldset.removeAttribute('disabled', false);
   }
 
   function activePage(evt) {
@@ -41,6 +49,8 @@
   window.map = {
     container: map,
     filters: filters,
+    filterSelectors: filterSelectors,
+    featuresFieldset: featuresFieldset,
     onMouseDownMainPin: onMouseDownMainPin
   };
 })();

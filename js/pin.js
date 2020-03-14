@@ -22,7 +22,7 @@
       }
 
       activeElement.classList.add('map__pin--active');
-      window.card.renderCard(container, window.card.createCard(card));
+      window.card.render(container, window.card.create(card));
     });
 
     return pin;
@@ -45,7 +45,7 @@
   }
 
   window.pin = {
-    renderPins: renderPins,
-    clearPins: clearPins
+    render: renderPins,
+    clear: clearPins
   };
 })();

@@ -28,19 +28,15 @@
   }
 
   function addAttribute(tagList, attributeName) {
-    if (tagList) {
-      tagList.forEach(function (item) {
-        item.setAttribute(attributeName, 'true');
-      });
-    }
+    tagList.forEach(function (item) {
+      item.setAttribute(attributeName, 'true');
+    });
   }
 
   function deleteAttribute(tagList, attributeName) {
-    if (tagList) {
-      tagList.forEach(function (item) {
-        item.removeAttribute(attributeName);
-      });
-    }
+    tagList.forEach(function (item) {
+      item.removeAttribute(attributeName);
+    });
   }
 
   function onPopupEscPress(evt, action) {

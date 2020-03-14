@@ -16,14 +16,14 @@
       }
       return isShouldPresent;
     });
-    window.pin.renderPins(sortedCards);
+    window.pin.render(sortedCards);
   }
 
   function reloadPins() {
     var popup = document.querySelector('.popup');
     window.utils.closePopup(popup);
-    window.pin.clearPins();
-    window.pin.renderPins(window.map.filteredOffers);
+    window.pin.clear();
+    window.pin.render(window.map.filteredOffers);
   }
 
   window.map.filters.addEventListener('change', window.utils.debounce(function () {

@@ -43,6 +43,8 @@
   var resetButton = adForm.querySelector('.ad-form__reset');
 
   window.utils.addAttribute(adFormFieldset, 'disabled');
+  window.utils.getValidElement(undefined, rooms, guests, roomsForGuestsMap);
+  window.utils.getValidElement(undefined, timeIn, timeOut, timeKeyMap);
 
   function lockForm() {
     adForm.classList.add('ad-form--disabled');
@@ -61,10 +63,12 @@
 
   function resetMap() {
     window.map.container.classList.add('map--faded');
-    window.card.closeCard();
-    window.pin.clearPins();
+    window.card.close();
+    window.pin.clear();
     window.map.filters.reset();
     window.map.filters.classList.add('mapFiltersForm--disabled');
+    window.utils.addAttribute(window.map.filterSelectors, 'disabled');
+    window.map.featuresFieldset.setAttribute('disabled', true);
     window.data.getAddress(window.data.MAIN_PIN_X, window.data.MAIN_PIN_HALF_CIRCLE);
     window.data.pinMain.style.left = MAIN_PIN_LOCATION_X;
     window.data.pinMain.style.top = MAIN_PIN_LOCATION_Y;

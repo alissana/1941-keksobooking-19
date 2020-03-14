@@ -2,6 +2,8 @@
 
 (function () {
   var FILE_TYPES = ['jpg', 'jpeg', 'png'];
+  var HOUSING_PREWIEW_WIDTH = 70;
+  var HOUSING_PREWIEW_HEIGHT = 70;
 
   var avatarChooser = document.querySelector('.ad-form__field input[type=file]');
   var previewAvatar = document.querySelector('.ad-form-header__preview img');
@@ -11,8 +13,8 @@
   var imageHousing = previewHousinChooser.appendChild(image);
 
   imageHousing.setAttribute('src', ' ');
-  imageHousing.setAttribute('width', '70');
-  imageHousing.setAttribute('height', '70');
+  imageHousing.setAttribute('width', HOUSING_PREWIEW_WIDTH);
+  imageHousing.setAttribute('height', HOUSING_PREWIEW_HEIGHT);
 
   function loadImageFile(evt, object) {
     var file = evt.target.files[0];
